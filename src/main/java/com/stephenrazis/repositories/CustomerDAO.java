@@ -1,5 +1,5 @@
 package com.stephenrazis.repositories;
 
-public class BankUserDAO {
+public class CustomerDAO {
 
 }
