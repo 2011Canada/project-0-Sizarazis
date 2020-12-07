@@ -15,16 +15,13 @@ public class BankOfByteLauncher {
 
 	public static Logger BoBLogger = LogManager.getLogger("com.revature.BoB");
 	
-	public static void main(String[] args) throws CustomerNotFoundException {
-		CustomerDAO cDAO = new CustomerDAO();
-		BankMenu bankMenu = new BankMenu(cDAO);
+	public static void main(String[] args) {
+		CustomerDAO customerDAO = new CustomerDAO();
+		BankMenu bankMenu = new BankMenu(customerDAO);
 		
-		bankMenu.handleUserInput();
-		
-//		List<Customer> customers = cDAO.FindAllCustomers();
-//		for (Customer c : customers) {
-//			System.out.println(c.Display());
-//		}
+		while (true) {
+			bankMenu.Run();
+		}
 	}
 
 }

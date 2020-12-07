@@ -1,26 +1,31 @@
 package com.stephenrazis.menus;
 
+import java.util.Scanner;
+
 import com.stephenrazis.models.Displayable;
 import com.stephenrazis.repositories.CustomerDAO;
 
 public class BankMenu implements Displayable {
-	CustomerDAO cDAO;
-	InteractionState state;
+	CustomerDAO customerDAO;
+	BankState state;
+	Scanner in;
 	
-	public BankMenu(CustomerDAO cDAO) {
-		this.cDAO = cDAO;
+	public BankMenu(CustomerDAO customerDAO) {
+		this.customerDAO = customerDAO;
 		this.state = new WelcomeState();
+		in = new Scanner(System.in);
 	}
 	
-	private void ChangeState(InteractionState state) {
-		this.state = state;
-	}
-	
-	public void handleUserInput() {
+	public void Run() {
 		// TODO Auto-generated method stub
-		
+		System.out.println(state.Display());
+		state.HandleUserInput(in.next());
 	}
 
+	public void ChangeState() {
+		// TODO
+	}
+	
 	public String Display() {
 		// TODO Auto-generated method stub
 		return null;
