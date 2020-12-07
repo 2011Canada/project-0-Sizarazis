@@ -1,5 +1,7 @@
 package com.stephenrazis.repositories;
 
-public class EmployeeDAO {
+import java.util.List;
+
+public class EmployeeDAO implements IEmployeeDAO {
 
 }

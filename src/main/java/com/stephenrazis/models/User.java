@@ -1,10 +1,9 @@
 package com.stephenrazis.models;
 
-public abstract class User {
+public abstract class User implements Displayable {
 	
-	String id;
-	String password;
-	int accessLevel;
+	private final String id;
+	private String password;
 	
 	
 	// constructors
@@ -30,13 +29,15 @@ public abstract class User {
 
 	
 	// overridden object methods
-	// note: at the moment an id is the only thing equality is based on 
+	public String Display() {
+		return "ID: " + this.id;
+	}
+	
 	@Override
 	public String toString() {
-		return "User [ID=" + id + ", accessLevel=" + accessLevel + "]";
+		return "User [ID=" + id + "]";
 	}
 
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -45,6 +46,7 @@ public abstract class User {
 		return result;
 	}
 
+	// note: at the moment an id is the only thing equality is based on 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
