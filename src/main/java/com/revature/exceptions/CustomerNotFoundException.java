@@ -1,4 +1,4 @@
-package com.stephenrazis.exceptions;
+package com.revature.exceptions;
 
 public class CustomerNotFoundException extends Exception {
 

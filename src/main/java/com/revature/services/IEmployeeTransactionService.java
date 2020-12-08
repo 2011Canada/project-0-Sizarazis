@@ -1,9 +1,9 @@
-package com.stephenrazis.services;
+package com.revature.services;
 
 import java.util.List;
 
-import com.stephenrazis.models.Customer;
-import com.stephenrazis.models.Employee;
+import com.revature.models.Customer;
+import com.revature.models.Employee;
 
 public interface IEmployeeTransactionService {
 	

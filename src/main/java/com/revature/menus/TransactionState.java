@@ -1,17 +1,17 @@
-package com.stephenrazis.menus;
+package com.revature.menus;
 
 import java.util.Scanner;
 
-public class LoginState implements BankState {
+public class TransactionState implements BankState {
 	
 	public String Display() {
 		// TODO Auto-generated method stub
-		return "You are in the LoginState";
+		return "\nYou are in the transaction state";
 	}
 
 	public BankState HandleUserInput(String cmd) {
+		// TODO Auto-generated method stub
 		return null;
-		// TODO Auto-generated method stub	
 	}
 
 }

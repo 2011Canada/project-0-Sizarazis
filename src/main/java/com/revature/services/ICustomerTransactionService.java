@@ -1,4 +1,4 @@
-package com.stephenrazis.services;
+package com.revature.services;
 
 public interface ICustomerTransactionService {
 	

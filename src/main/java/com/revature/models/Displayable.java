@@ -1,4 +1,4 @@
-package com.stephenrazis.models;
+package com.revature.models;
 
 public interface Displayable {
 

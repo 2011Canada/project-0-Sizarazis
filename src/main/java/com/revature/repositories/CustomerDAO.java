@@ -1,11 +1,11 @@
-package com.stephenrazis.repositories;
+package com.revature.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.stephenrazis.exceptions.CustomerNotFoundException;
-import com.stephenrazis.exceptions.IncorrectUserLoginException;
-import com.stephenrazis.models.Customer;
+import com.revature.exceptions.CustomerNotFoundException;
+import com.revature.exceptions.IncorrectUserLoginException;
+import com.revature.models.Customer;
 
 public class CustomerDAO implements ICustomerDAO {
 	

@@ -1,12 +1,12 @@
-package com.stephenrazis.services;
+package com.revature.services;
 
 import java.util.List;
 
-import com.stephenrazis.models.Customer;
-import com.stephenrazis.models.Employee;
-import com.stephenrazis.models.User;
-import com.stephenrazis.models.Verifiable;
-import com.stephenrazis.repositories.IEmployeeDAO;
+import com.revature.models.Customer;
+import com.revature.models.Employee;
+import com.revature.models.User;
+import com.revature.models.Verifiable;
+import com.revature.repositories.IEmployeeDAO;
 
 // TODO
 public class EmployeeTransactionService implements IEmployeeTransactionService, Verifiable {

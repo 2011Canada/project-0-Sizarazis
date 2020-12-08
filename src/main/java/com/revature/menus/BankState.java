@@ -1,4 +1,4 @@
-package com.stephenrazis.menus;
+package com.revature.menus;
 
 import java.util.Scanner;
 

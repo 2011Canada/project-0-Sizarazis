@@ -1,9 +1,9 @@
-package com.stephenrazis.repositories;
+package com.revature.repositories;
 
 import java.util.List;
 
-import com.stephenrazis.exceptions.CustomerNotFoundException;
-import com.stephenrazis.models.Customer;
+import com.revature.exceptions.CustomerNotFoundException;
+import com.revature.models.Customer;
 
 public interface ICustomerDAO {
 

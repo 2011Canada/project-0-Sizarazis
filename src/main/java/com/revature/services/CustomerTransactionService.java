@@ -1,9 +1,9 @@
-package com.stephenrazis.services;
+package com.revature.services;
 
-import com.stephenrazis.models.User;
-import com.stephenrazis.models.Verifiable;
-import com.stephenrazis.repositories.ICustomerDAO;
-import com.stephenrazis.repositories.IEmployeeDAO;
+import com.revature.models.User;
+import com.revature.models.Verifiable;
+import com.revature.repositories.ICustomerDAO;
+import com.revature.repositories.IEmployeeDAO;
 
 public class CustomerTransactionService implements ICustomerTransactionService, Verifiable {
 	ICustomerDAO customerDAO;
