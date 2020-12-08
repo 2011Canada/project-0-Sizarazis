@@ -4,31 +4,14 @@ import java.util.List;
 
 import com.revature.models.Customer;
 import com.revature.models.Employee;
-import com.revature.models.User;
-import com.revature.models.Verifiable;
 import com.revature.repositories.IEmployeeDAO;
 
 // TODO
-public class EmployeeTransactionService implements IEmployeeTransactionService, Verifiable {
+public class EmployeeTransactionService implements IEmployeeTransactionService {
 	IEmployeeDAO employeeDAO;
 	
 	public EmployeeTransactionService(IEmployeeDAO employeeDAO) {
 		this.employeeDAO = employeeDAO;
-	}
-
-	public User Login(String id, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public User Register(String id, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void Logout() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public Customer ApproveAccount(Customer c) {

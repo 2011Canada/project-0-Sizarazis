@@ -1,11 +1,11 @@
-package com.revature.models;
+package com.revature.services;
 
-public interface Verifiable {
-	
+import com.revature.models.User;
+
+public interface ISignInService {
 	public User Login(String id, String password);
 	
 	public User Register(String id, String password);
 	
 	public void Logout();
-	
 }

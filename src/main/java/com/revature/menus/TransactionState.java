@@ -1,7 +1,5 @@
 package com.revature.menus;
 
-import java.util.Scanner;
-
 public class TransactionState implements BankState {
 	
 	public String Display() {

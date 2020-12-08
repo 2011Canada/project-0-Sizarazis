@@ -1,10 +1,17 @@
 package com.revature.menus;
 
-import java.util.Scanner;
+import com.revature.services.ISignInService;
+import com.revature.services.SignInService;
 
 public class LoginState implements BankState {
 	String id = "";
 	String pw = "";
+	ISignInService signInService;
+	
+	
+	public LoginState() {
+		this.signInService = new SignInService();
+	}
 	
 	public String Display() {
 		String s = "";
@@ -25,6 +32,10 @@ public class LoginState implements BankState {
 		}
 		else {
 			pw = cmd;
+			
+			//NOTE: this is only a stub, may want to try/catch here so it can be displayed to the user
+			signInService.Login(id,  pw);
+			
 			return new TransactionState();
 		}
 	}
