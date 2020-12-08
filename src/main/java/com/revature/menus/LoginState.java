@@ -1,5 +1,8 @@
 package com.revature.menus;
 
+import com.revature.exceptions.CustomerNotFoundException;
+import com.revature.exceptions.IncorrectUserLoginException;
+import com.revature.models.User;
 import com.revature.services.ISignInService;
 import com.revature.services.SignInService;
 
@@ -17,7 +20,7 @@ public class LoginState implements BankState {
 		String s = "";
 		if (id.equals("")) {
 			s = "\nPlease enter your ID: ";
-		}
+		} 
 		else {
 			s = "\nPlease enter your password: ";
 		}
@@ -34,9 +37,20 @@ public class LoginState implements BankState {
 			pw = cmd;
 			
 			//NOTE: this is only a stub, may want to try/catch here so it can be displayed to the user
-			signInService.Login(id,  pw);
-			
-			return new TransactionState();
+			try {
+				User user = signInService.Login(id,  pw);
+				return new TransactionState(user);
+			}
+			catch (CustomerNotFoundException cnfe) {
+				id = "";
+				pw = "";
+				System.out.println("Customer not found. Please enter a valid ID");
+			}
+			catch (IncorrectUserLoginException iule) {
+				pw = "";
+				System.out.println("Incorrect password. Try again.");
+			}
+			return this;
 		}
 	}
 
