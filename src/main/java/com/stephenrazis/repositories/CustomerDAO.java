@@ -28,19 +28,23 @@ public class CustomerDAO implements ICustomerDAO {
 		customers.add(c4);
 		customers.add(c5);
 	}
-
+	
+	//TODO
 	public Customer SaveCustomer() {
 		return null;
 	}
 
+	//TODO
 	public Customer UpdateCustomer(Customer c) {
 		return null;
 	}
 
+	//TODO
 	public List<Customer> FindAllCustomers() {
 		return customers;
 	}
 
+	//TODO
 	public Customer FindCustomerById(String id) throws CustomerNotFoundException {
 		for (Customer c : customers) {
 			if (c.GetId().equals(id)) {
@@ -51,6 +55,7 @@ public class CustomerDAO implements ICustomerDAO {
 		throw new CustomerNotFoundException();
 	}
 	
+	//TODO
 	public Customer FindIdPasswordCombo(String id, String password) throws IncorrectUserLoginException {
 		for (Customer c : customers) {
 			if (c.GetId().equals(id) && c.GetPassword().equals(password)) {

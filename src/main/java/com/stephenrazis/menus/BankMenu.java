@@ -4,14 +4,16 @@ import java.util.Scanner;
 
 import com.stephenrazis.models.Displayable;
 import com.stephenrazis.repositories.CustomerDAO;
+import com.stephenrazis.services.CustomerTransactionService;
+import com.stephenrazis.services.ICustomerTransactionService;
 
 public class BankMenu implements Displayable {
-	CustomerDAO customerDAO;
+	ICustomerTransactionService cts;
 	BankState state;
 	Scanner in;
 	
-	public BankMenu(CustomerDAO customerDAO) {
-		this.customerDAO = customerDAO;
+	public BankMenu(ICustomerTransactionService cts) {
+		this.cts = cts;
 		this.state = new WelcomeState();
 		in = new Scanner(System.in);
 	}
