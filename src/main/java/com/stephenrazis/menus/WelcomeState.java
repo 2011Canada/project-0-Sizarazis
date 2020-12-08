@@ -14,21 +14,17 @@ public class WelcomeState implements BankState {
 		return welcome;
 	}
 
-	public void HandleUserInput(String cmd) {
+	public BankState HandleUserInput(String cmd) {
 		if (cmd.equals("login")) {
-			// change state
+			return new LoginState();
 		}
 		else if (cmd.equals("register")) {
 			// change state
+			return new RegistrationState();
 		}
 		else {
 			System.out.println("\nCommand not accepted.\n");
+			return this;
 		}
 	}
-
-	public void NextState(BankState state) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

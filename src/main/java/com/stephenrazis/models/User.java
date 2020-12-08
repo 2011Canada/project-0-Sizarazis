@@ -28,7 +28,7 @@ public abstract class User implements Displayable {
 	}
 
 	
-	// overridden object methods
+	// overridden default methods
 	public String Display() {
 		return "ID: " + this.id;
 	}

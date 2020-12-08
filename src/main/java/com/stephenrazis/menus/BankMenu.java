@@ -7,7 +7,7 @@ import com.stephenrazis.repositories.CustomerDAO;
 import com.stephenrazis.services.CustomerTransactionService;
 import com.stephenrazis.services.ICustomerTransactionService;
 
-public class BankMenu implements Displayable {
+public class BankMenu {
 	ICustomerTransactionService cts;
 	BankState state;
 	Scanner in;
@@ -21,16 +21,12 @@ public class BankMenu implements Displayable {
 	public void Run() {
 		// TODO Auto-generated method stub
 		System.out.println(state.Display());
-		state.HandleUserInput(in.next());
+		
+		BankState nextState = state.HandleUserInput(in.next());
+		ChangeState(nextState);
 	}
 
-	public void ChangeState() {
-		// TODO
+	public void ChangeState(BankState nextState) {
+		this.state = nextState;
 	}
-	
-	public String Display() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

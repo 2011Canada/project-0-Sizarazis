@@ -6,17 +6,12 @@ public class LoginState implements BankState {
 	
 	public String Display() {
 		// TODO Auto-generated method stub
+		return "You are in the LoginState";
+	}
+
+	public BankState HandleUserInput(String cmd) {
 		return null;
-	}
-
-	public void NextState(BankState state) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void HandleUserInput(String cmd) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 }
