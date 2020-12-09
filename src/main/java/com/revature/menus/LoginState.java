@@ -1,7 +1,7 @@
 package com.revature.menus;
 
-import com.revature.exceptions.CustomerNotFoundException;
-import com.revature.exceptions.IncorrectUserLoginException;
+import com.revature.exceptions.UserNotFoundException;
+import com.revature.exceptions.IncorrectPasswordException;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.models.User;
@@ -55,12 +55,12 @@ public class LoginState implements BankState {
 					return this;
 				}
 			}
-			catch (CustomerNotFoundException e) {
+			catch (UserNotFoundException e) {
 				id = "";
 				pw = "";
 				System.out.println("Customer not found. Please enter a valid ID");
 			}
-			catch (IncorrectUserLoginException e) {
+			catch (IncorrectPasswordException e) {
 				pw = "";
 				System.out.println("Incorrect password. Try again.");
 			}

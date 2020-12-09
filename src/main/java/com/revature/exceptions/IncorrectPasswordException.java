@@ -1,9 +1,9 @@
 package com.revature.exceptions;
 
-public class IncorrectUserLoginException extends Exception {
+public class IncorrectPasswordException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	public IncorrectUserLoginException() {
+	public IncorrectPasswordException() {
 		super("Wrong ID or password.");
 	}
 }

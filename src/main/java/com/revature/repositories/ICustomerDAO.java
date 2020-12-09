@@ -2,7 +2,7 @@ package com.revature.repositories;
 
 import java.util.List;
 
-import com.revature.exceptions.CustomerNotFoundException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Customer;
 
 public interface ICustomerDAO {

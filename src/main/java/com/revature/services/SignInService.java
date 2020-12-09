@@ -1,7 +1,7 @@
 package com.revature.services;
 
-import com.revature.exceptions.CustomerNotFoundException;
-import com.revature.exceptions.IncorrectUserLoginException;
+import com.revature.exceptions.UserNotFoundException;
+import com.revature.exceptions.IncorrectPasswordException;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.models.User;
@@ -20,21 +20,24 @@ public class SignInService implements ISignInService {
 	}
 	
 	// TODO: WHAT ACCOUNT WILL AN EMPLOYEE HAVE IF THEY ARE BOTH A CUSTOMER AND AN EMPLOYEE
-	public User Login(String id, String password) throws IncorrectUserLoginException, CustomerNotFoundException {
+	// ALSO: I may want to hide the password in the console
+	public User Login(String id, String password) throws IncorrectPasswordException, UserNotFoundException {
 		Customer customer = customerDAO.FindCustomerById(id);
 		Employee employee = employeeDAO.FindEmployeeById(id);
 		
 		if (customer == null && employee == null) {
-			throw new CustomerNotFoundException();
+			throw new UserNotFoundException();
 		}
 		// Right now, if an employee signs in they will only sign-in as an employee
 		else if (employee != null && employee.GetPassword().equals(password)) {
-			return new Employee(id, password);
+			return employee;
 		}
 		else if (customer != null && customer.GetPassword().equals(password)) {
-			return new Customer(id, password);
+			return customer;
 		}
-		throw new IncorrectUserLoginException();
+		else {
+			throw new IncorrectPasswordException();
+		}
 	}
 		
 	public User Register(String id, String password) {
