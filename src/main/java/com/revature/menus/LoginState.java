@@ -29,7 +29,7 @@ public class LoginState implements BankState {
 		return s;
 	}
 
-	// TODO propagate or check the user inputs
+	//TODO: enable users to go back to the welcome page
 	public BankState HandleUserInput(String cmd) {
 		if (id.equals("")) {
 			id = cmd;
@@ -58,7 +58,7 @@ public class LoginState implements BankState {
 			catch (UserNotFoundException e) {
 				id = "";
 				pw = "";
-				System.out.println("Customer not found. Please enter a valid ID");
+				System.out.println("User not found. Please enter a valid ID.");
 			}
 			catch (IncorrectPasswordException e) {
 				pw = "";

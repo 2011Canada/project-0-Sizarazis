@@ -15,7 +15,7 @@ public class BankMenu {
 		// TODO Auto-generated method stub
 		System.out.println(state.Display());
 		
-		BankState nextState = state.HandleUserInput(in.next());
+		BankState nextState = state.HandleUserInput(in.nextLine());
 		ChangeState(nextState);
 	}
 
