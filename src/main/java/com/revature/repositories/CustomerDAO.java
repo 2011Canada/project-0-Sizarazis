@@ -3,8 +3,6 @@ package com.revature.repositories;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.exceptions.CustomerNotFoundException;
-import com.revature.exceptions.IncorrectUserLoginException;
 import com.revature.models.Customer;
 
 public class CustomerDAO implements ICustomerDAO {
@@ -45,25 +43,24 @@ public class CustomerDAO implements ICustomerDAO {
 	}
 
 	//TODO
-	public Customer FindCustomerById(String id) throws CustomerNotFoundException {
+	public Customer FindCustomerById(String id) {
 		for (Customer c : customers) {
 			if (c.GetId().equals(id)) {
 				return c;
 			}
 		}
-		
-		throw new CustomerNotFoundException();
+		return null;
 	}
 	
 	//TODO
-	public Customer FindIdPasswordCombo(String id, String password) throws IncorrectUserLoginException {
-		for (Customer c : customers) {
-			if (c.GetId().equals(id) && c.GetPassword().equals(password)) {
-				return c;
-			}
-		}
-		
-		throw new IncorrectUserLoginException();
-	}
+//	public Customer FindIdPasswordCombo(String id, String password) {
+//		for (Customer c : customers) {
+//			if (c.GetId().equals(id) && c.GetPassword().equals(password)) {
+//				return c;
+//			}
+//		}
+//		
+//		return null;
+//	}
 
 }

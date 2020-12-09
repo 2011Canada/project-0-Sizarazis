@@ -47,6 +47,14 @@ public class Customer extends User {
 		this.balance = nextBalance;
 	}
 	
+	public String GetPassword() {
+		return this.password;
+	}
+	
+	public void SetPassword(String password) {
+		this.password = password;
+	}
+	
 	public void AddBalance(double toAdd) {
 		this.balance = this.balance + toAdd;
 	}

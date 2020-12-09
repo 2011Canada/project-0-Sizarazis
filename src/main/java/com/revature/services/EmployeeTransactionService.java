@@ -44,4 +44,8 @@ public class EmployeeTransactionService implements IEmployeeTransactionService {
 		return null;
 	}
 	
+	public void Logout() {
+		System.exit(0);
+	}
+	
 }

@@ -8,4 +8,5 @@ public interface ICustomerTransactionService {
 	
 	public void Deposit(double amount);
 	
+	public void Logout();
 }

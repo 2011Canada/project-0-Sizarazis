@@ -19,4 +19,6 @@ public interface IEmployeeTransactionService {
 	
 	public Customer RegisterForCustomerAccount(Employee e);
 	
+	public void Logout();
+	
 }

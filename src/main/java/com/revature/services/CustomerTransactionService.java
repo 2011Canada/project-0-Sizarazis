@@ -23,4 +23,8 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void Logout() {
+		System.exit(0);
+	}
 }

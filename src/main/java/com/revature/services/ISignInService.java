@@ -8,6 +8,4 @@ public interface ISignInService {
 	public User Login(String id, String password) throws IncorrectUserLoginException, CustomerNotFoundException;
 	
 	public User Register(String id, String password);
-	
-	public void Logout();
 }

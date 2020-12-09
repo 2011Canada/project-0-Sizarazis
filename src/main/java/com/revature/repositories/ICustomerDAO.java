@@ -13,5 +13,5 @@ public interface ICustomerDAO {
 	
 	public List<Customer> FindAllCustomers();
 	
-	public Customer FindCustomerById(String id) throws CustomerNotFoundException;
+	public Customer FindCustomerById(String id);
 }

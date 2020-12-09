@@ -2,15 +2,11 @@ package com.revature.menus;
 
 import java.util.Scanner;
 
-import com.revature.services.ICustomerTransactionService;
-
 public class BankMenu {
-	ICustomerTransactionService cts;
 	BankState state;
 	Scanner in;
 	
-	public BankMenu(ICustomerTransactionService cts) {
-		this.cts = cts;		
+	public BankMenu() {
 		this.state = new WelcomeState();
 		in = new Scanner(System.in);
 	}
