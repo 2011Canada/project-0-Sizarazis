@@ -2,6 +2,7 @@ package com.revature.menus;
 
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.exceptions.IncorrectPasswordException;
+import com.revature.exceptions.TooManyFailedLoginsException;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.models.User;
@@ -29,7 +30,8 @@ public class LoginState implements BankState {
 		return s;
 	}
 
-	//TODO: enable users to go back to the welcome page
+	// TODO: enable users to go back to the welcome page
+	// TODO: figure out how to handle employees that are also customers
 	public BankState HandleUserInput(String cmd) {
 		if (id.equals("")) {
 			id = cmd;
@@ -41,7 +43,6 @@ public class LoginState implements BankState {
 			try {
 				User user = signInService.Login(id,  pw);
 				
-				// TODO: figure out how to handle employees that are also customers
 				// employee sign-in
 				if (user instanceof Employee) {
 					return new EmployeeTransactionState((Employee)user);
@@ -63,6 +64,10 @@ public class LoginState implements BankState {
 			catch (IncorrectPasswordException e) {
 				pw = "";
 				System.out.println("Incorrect password. Try again.");
+			}
+			catch (TooManyFailedLoginsException e) {
+				System.out.println("Too many failed login attempts.\n");
+				return new WelcomeState();
 			}
 			return this;
 		}

@@ -2,8 +2,13 @@ package com.revature.exceptions;
 
 public class MalformedPasswordException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MalformedPasswordException( ) {
-		System.out.println("\nMalformed password. Please format your password as advised.");
+		super("Malformed password construction.");
 	}
 	
 }

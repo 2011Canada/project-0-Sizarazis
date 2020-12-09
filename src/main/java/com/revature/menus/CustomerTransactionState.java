@@ -1,6 +1,7 @@
 package com.revature.menus;
 
 import com.revature.exceptions.InsufficientFundsException;
+import com.revature.exceptions.NegativeDepositException;
 import com.revature.models.Customer;
 import com.revature.repositories.CustomerDAO;
 import com.revature.services.CustomerTransactionService;
@@ -17,7 +18,7 @@ public class CustomerTransactionState implements BankState {
 
 	public String Display() {
 		String s = "";
-		s = "\nHello customer: " + this.customer.GetId() + "!\n" +
+		s = "\nHello customer " + this.customer.GetId() + "!\n" +
 				"Please enter one of the following commands:\n" +
 				"    1. \"balance\"           --> check the balance of your account.\n" +
 				"    2. \"withdraw [money]\"  --> withdraw money from your account.\n" +
@@ -39,14 +40,14 @@ public class CustomerTransactionState implements BankState {
 			else if (split[0].equals("withdraw") && split.length == 2) {
 				double amount = Double.parseDouble(cmd.split(" ")[1]);
 				
-				System.out.println("\nAttempting to withdraw, " + amount + " from your account.");
+				System.out.println("\nAttempting to withdraw " + amount + " from your account.");
 				
 				cts.Withdraw(amount);
 			} 
 			// deposit
 			else if (split[0].equals("deposit") && split.length == 2) {
 				double amount = Double.parseDouble(cmd.split(" ")[1]);
-				System.out.println("\nAttempting to deposit, " + amount + " to your account.");
+				System.out.println("\nAttempting to deposit " + amount + " to your account.");
 				
 				cts.Deposit(amount);
 			}
@@ -66,7 +67,10 @@ public class CustomerTransactionState implements BankState {
 			System.out.println("Please ensure you are entering the correct amount of arguments.\n");
 		}
 		catch (InsufficientFundsException e) {
-			// NOTE: anything need to be here?
+			System.out.println("There is not enough funds in your account to complete this transaction.\n");
+		}
+		catch (NegativeDepositException e) {
+			System.out.println("You cannot deposit a negative number.\n");
 		}
 		
 		return this;

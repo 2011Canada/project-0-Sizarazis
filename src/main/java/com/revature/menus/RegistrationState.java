@@ -66,7 +66,7 @@ public class RegistrationState implements BankState {
 					return this;
 				}
 				catch(MalformedPasswordException e) {
-					//TODO: Anything to do here?
+					System.out.println("\nMalformed password. Please format your password as advised.");
 					return this;
 				}
 			}

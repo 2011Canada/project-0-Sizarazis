@@ -3,6 +3,7 @@ package com.revature.services;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.exceptions.IncorrectPasswordException;
 import com.revature.exceptions.MalformedPasswordException;
+import com.revature.exceptions.TooManyFailedLoginsException;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.models.User;
@@ -15,29 +16,45 @@ public class SignInService implements ISignInService {
 	ICustomerDAO customerDAO;
 	IEmployeeDAO employeeDAO;
 	
+	int loginAttempts;
+	public static final int MAX_LOGIN_ATTEMPTS = 3;
+	
 	public SignInService() {
 		this.customerDAO = new CustomerDAO();
 		this.employeeDAO = new EmployeeDAO();
+		
+		loginAttempts = 0;
+		
 	}
 	
 	// TODO: WHAT ACCOUNT WILL AN EMPLOYEE HAVE IF THEY ARE BOTH A CUSTOMER AND AN EMPLOYEE
 	// ALSO: I may want to hide the password in the console
-	public User Login(String id, String password) throws IncorrectPasswordException, UserNotFoundException {
+	// ALSO: Right now, if an employee signs in they will only sign-in as an employee
+	public User Login(String id, String password) throws IncorrectPasswordException, UserNotFoundException, TooManyFailedLoginsException {
 		Customer customer = customerDAO.FindCustomerById(id);
 		Employee employee = employeeDAO.FindEmployeeById(id);
 		
+		// bad username
 		if (customer == null && employee == null) {
 			throw new UserNotFoundException();
 		}
-		// Right now, if an employee signs in they will only sign-in as an employee
+		// good employee login
 		else if (employee != null && employee.GetPassword().equals(password)) {
 			return employee;
 		}
+		// good customer login
 		else if (customer != null && customer.GetPassword().equals(password)) {
 			return customer;
 		}
+		// bad password
 		else {
-			throw new IncorrectPasswordException();
+			loginAttempts++;
+			if (loginAttempts < MAX_LOGIN_ATTEMPTS) {
+				throw new IncorrectPasswordException();
+			}
+			else {
+				throw new TooManyFailedLoginsException();
+			}
 		}
 	}
 
