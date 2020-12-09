@@ -1,13 +1,13 @@
 package com.revature.exceptions;
 
-public class NegativeDepositException extends Exception {
+public class NegativeNumberException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public NegativeDepositException() {
+	public NegativeNumberException() {
 		super("User tried to deposit a negative number.");
 	}
 	

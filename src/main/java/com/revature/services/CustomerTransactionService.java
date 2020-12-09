@@ -1,7 +1,7 @@
 package com.revature.services;
 
 import com.revature.exceptions.InsufficientFundsException;
-import com.revature.exceptions.NegativeDepositException;
+import com.revature.exceptions.NegativeNumberException;
 import com.revature.models.Customer;
 import com.revature.repositories.ICustomerDAO;
 
@@ -19,10 +19,13 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 		return customer.GetBalance();
 	}
 
-	public double Withdraw(double amount) throws InsufficientFundsException {
+	public double Withdraw(double amount) throws InsufficientFundsException, NegativeNumberException {
 		double balance = customer.GetBalance();
 		
-		if (amount < 0 || amount > balance) {
+		if (amount < 0) {
+			throw new NegativeNumberException();
+		}
+		else if (amount > balance) {
 			throw new InsufficientFundsException();
 		}
 		else {
@@ -33,9 +36,9 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 		}
 	}
 
-	public void Deposit(double amount) throws NegativeDepositException {
+	public void Deposit(double amount) throws NegativeNumberException {
 		if (amount < 0) {
-			throw new NegativeDepositException();
+			throw new NegativeNumberException();
 		}
 		else {
 			customer.SetBalance(customer.GetBalance() + amount);

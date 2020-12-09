@@ -1,7 +1,7 @@
 package com.revature.menus;
 
 import com.revature.exceptions.InsufficientFundsException;
-import com.revature.exceptions.NegativeDepositException;
+import com.revature.exceptions.NegativeNumberException;
 import com.revature.models.Customer;
 import com.revature.repositories.CustomerDAO;
 import com.revature.services.CustomerTransactionService;
@@ -69,8 +69,8 @@ public class CustomerTransactionState implements BankState {
 		catch (InsufficientFundsException e) {
 			System.out.println("There is not enough funds in your account to complete this transaction.\n");
 		}
-		catch (NegativeDepositException e) {
-			System.out.println("You cannot deposit a negative number.\n");
+		catch (NegativeNumberException e) {
+			System.out.println("You cannot withdraw or deposit a negative number.\n");
 		}
 		
 		return this;
