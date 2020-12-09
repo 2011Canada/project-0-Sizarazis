@@ -2,6 +2,7 @@ package com.revature.services;
 
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.exceptions.IncorrectPasswordException;
+import com.revature.exceptions.MalformedPasswordException;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.models.User;
@@ -39,9 +40,27 @@ public class SignInService implements ISignInService {
 			throw new IncorrectPasswordException();
 		}
 	}
-		
-	public User Register(String id, String password) {
-		// TODO Auto-generated method stub
+
+	// TODO
+	public Customer Register(String id, String password) {
 		return null;
+	}
+
+	
+	public String ValidatePassword(String password) throws MalformedPasswordException {
+		String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+		
+		if (!password.matches(pattern)) {
+			throw new MalformedPasswordException();
+		}
+		else {
+			return password;
+		}
+	}
+
+	
+	// TODO
+	public String GenerateId() {
+		return "1234";
 	}
 }
