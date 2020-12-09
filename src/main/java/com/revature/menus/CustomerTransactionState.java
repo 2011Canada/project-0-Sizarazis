@@ -30,9 +30,12 @@ public class CustomerTransactionState implements BankState {
 	public BankState HandleUserInput(String cmd) {
 		try {
 			String[] split = cmd.split(" ");
+			
+			// balance
 			if (cmd.equals("balance")) {
 				System.out.println("\nCurrent account balance: " + cts.CheckBalance());
 			}
+			// withdraw
 			else if (split[0].equals("withdraw") && split.length == 2) {
 				double amount = Double.parseDouble(cmd.split(" ")[1]);
 				
@@ -40,15 +43,18 @@ public class CustomerTransactionState implements BankState {
 				
 				cts.Withdraw(amount);
 			} 
+			// deposit
 			else if (split[0].equals("deposit") && split.length == 2) {
 				double amount = Double.parseDouble(cmd.split(" ")[1]);
 				System.out.println("\nAttempting to deposit, " + amount + " to your account.");
 				
 				cts.Deposit(amount);
 			}
+			// logout
 			else if (cmd.equals("logout")) {
 				Logout();
 			}
+			// malformed command
 			else {
 				System.out.println("\nPlease enter a valid command.");
 			}

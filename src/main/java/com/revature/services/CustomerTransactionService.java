@@ -25,9 +25,9 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 			throw new InsufficientFundsException();
 		}
 		else {
-			balance = balance - amount;
-			customer.SetBalance(balance);
-			System.out.println("Transaction complete. Your new account balance is: " + customer.GetBalance());
+			customer.SetBalance(balance - amount);
+			balance = customer.GetBalance();
+			System.out.println("Transaction complete. Your new account balance is: " + balance);
 			return balance;
 		}
 	}
