@@ -5,11 +5,13 @@ import com.revature.exceptions.NegativeNumberException;
 
 public interface ICustomerTransactionService {
 	
-	public double CheckBalance();
+	public boolean IsCustomer(String id);
 	
-	public double Withdraw(double amount) throws InsufficientFundsException, NegativeNumberException;
+	public double CheckBalance(String id);
 	
-	public void Deposit(double amount) throws NegativeNumberException;
+	public double Withdraw(String id, double amount) throws InsufficientFundsException, NegativeNumberException;
+	
+	public void Deposit(String id, double amount) throws NegativeNumberException;
 	
 	public void Logout();
 }

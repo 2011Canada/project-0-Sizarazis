@@ -1,23 +1,22 @@
 package com.revature.services;
 
-import java.util.List;
-
 import com.revature.exceptions.InsufficientFundsException;
 import com.revature.exceptions.NegativeNumberException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 
 public interface IEmployeeTransactionService {
 	
-	public Customer ApproveAccount(Customer c);
+	public void ApproveAccount(String id);
 	
-	public Customer RejectAccount(Customer c);
+	public void RejectAccount(String id);
 	
-	public void TransferMoney(Customer from, Customer to, double amount) throws NegativeNumberException, InsufficientFundsException;
+	public void TransferMoney(String from, String to, double amount) throws NegativeNumberException, InsufficientFundsException, UserNotFoundException;
 	
 	public Customer ViewAccount(String id);
 	
-	public List<Customer> ViewAllAcounts();
+	public String ViewAllAcounts();
 	
 	public Customer RegisterForCustomerAccount(Employee e);
 	

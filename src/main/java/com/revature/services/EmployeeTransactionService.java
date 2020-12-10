@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revature.exceptions.InsufficientFundsException;
 import com.revature.exceptions.NegativeNumberException;
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.repositories.ICustomerDAO;
@@ -18,28 +19,40 @@ public class EmployeeTransactionService implements IEmployeeTransactionService {
 		this.customerDAO = customerDAO;
 	}
 
-	public Customer ApproveAccount(Customer c) {
+	public void ApproveAccount(String id) {
+		Customer c = customerDAO.FindCustomerById(id);
 		c.SetRegistration(true);
-		return c;
+		customerDAO.UpdateCustomer(c);
 	}
 
-	public Customer RejectAccount(Customer c) {
+	public void RejectAccount(String id) {
+		Customer c = customerDAO.FindCustomerById(id);
 		c.SetRegistration(false);
-		return c;
+		customerDAO.UpdateCustomer(c);
 	}
 
-	public void TransferMoney(Customer from, Customer to, double amount) throws NegativeNumberException, InsufficientFundsException {
-		double fromBal = from.GetBalance();
-		double toBal = to.GetBalance();
-		if (amount < 0) {
+	public void TransferMoney(String from, String to, double amount) throws NegativeNumberException, InsufficientFundsException, UserNotFoundException {
+		Customer fromC = customerDAO.FindCustomerById(from);
+		Customer toC = customerDAO.FindCustomerById(to);
+		
+		double fromBal = fromC.GetBalance();
+		double toBal = toC.GetBalance();
+		
+		if (fromC == null || toC == null) {
+			throw new UserNotFoundException();
+		}
+		else if (amount < 0) {
 			throw new NegativeNumberException();
 		}
 		else if (amount > fromBal) {
 			throw new InsufficientFundsException();
 		}
 		else {
-			from.SetBalance(fromBal - amount);
-			to.SetBalance(toBal + amount);
+			fromC.SetBalance(fromBal - amount);
+			toC.SetBalance(toBal + amount);
+			
+			customerDAO.UpdateCustomer(fromC);
+			customerDAO.UpdateCustomer(toC);
 		}
 	}
 
@@ -47,8 +60,14 @@ public class EmployeeTransactionService implements IEmployeeTransactionService {
 		return customerDAO.FindCustomerById(id);
 	}
 
-	public List<Customer> ViewAllAcounts() {
-		return customerDAO.FindAllCustomers();
+	public String ViewAllAcounts() {
+		StringBuilder sb = new StringBuilder("");
+		List<Customer> customers = customerDAO.FindAllCustomers();
+		for (Customer c : customers) {
+			sb = sb.append(c.Display() + "\n");
+		}
+		
+		return sb.toString();
 	}
 
 	//TODO

@@ -71,13 +71,8 @@ public class Customer extends User {
 	// overrides
 	@Override
 	public String Display() {
-		String output = "";
-		if (this.isRegistered) {
-			output = "ID: " + this.id + "\n" + "Balance: " + this.balance + "\n";
-		}
-		else {
-			output = "This account is currently unregistered. " + "\n";
-		}
+		String output = "ID: " + this.id + "\n" + "Balance: " + this.balance + "\n";
+
 		return output;
 	}
 	

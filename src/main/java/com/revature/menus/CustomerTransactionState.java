@@ -13,7 +13,7 @@ public class CustomerTransactionState implements BankState {
 	
 	public CustomerTransactionState(Customer customer) {
 		this.customer = customer;
-		cts = new CustomerTransactionService(new CustomerDAO(), customer);
+		cts = new CustomerTransactionService(new CustomerDAO());
 	}
 
 	public String Display() {
@@ -28,13 +28,15 @@ public class CustomerTransactionState implements BankState {
 		return s;
 	}
 
+	
+	// TODO: when I refactor accounts out of customers customers won't have access to most of their data so getId should be better
 	public BankState HandleUserInput(String cmd) {
 		try {
 			String[] split = cmd.split(" ");
 			
 			// balance
 			if (cmd.equals("balance")) {
-				System.out.println("\nCurrent account balance: " + cts.CheckBalance());
+				System.out.println("\nCurrent account balance: " + cts.CheckBalance(customer.GetId()));
 			}
 			// withdraw
 			else if (split[0].equals("withdraw") && split.length == 2) {
@@ -42,14 +44,14 @@ public class CustomerTransactionState implements BankState {
 				
 				System.out.println("\nAttempting to withdraw " + amount + " from your account.");
 				
-				cts.Withdraw(amount);
+				cts.Withdraw(customer.GetId(), amount);
 			} 
 			// deposit
 			else if (split[0].equals("deposit") && split.length == 2) {
 				double amount = Double.parseDouble(cmd.split(" ")[1]);
 				System.out.println("\nAttempting to deposit " + amount + " to your account.");
 				
-				cts.Deposit(amount);
+				cts.Deposit(customer.GetId(), amount);
 			}
 			// logout
 			else if (cmd.equals("logout")) {
