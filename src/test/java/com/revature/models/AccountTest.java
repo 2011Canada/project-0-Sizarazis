@@ -2,13 +2,17 @@ package com.revature.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 public class AccountTest {
 
-	private Account account;
+	private Account account = mock(Account.class);
+	
 	
 	@BeforeEach
 	public void setAccount() {
@@ -25,4 +29,8 @@ public class AccountTest {
 		fail();
 	}
 	
+	@Test
+	public void testMock() {
+		when(account.GetBalance()).thenReturn(1.0);
+	}
 }
