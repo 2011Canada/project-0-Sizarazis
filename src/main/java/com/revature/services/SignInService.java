@@ -28,6 +28,7 @@ public class SignInService implements ISignInService {
 	}
 	
 	// TODO: WHAT ACCOUNT WILL AN EMPLOYEE HAVE IF THEY ARE BOTH A CUSTOMER AND AN EMPLOYEE
+	// TODO: Keep a database of users that are online????
 	// ALSO: I may want to hide the password in the console
 	// ALSO: Right now, if an employee signs in they will only sign-in as an employee
 	public User Login(String id, String password) throws IncorrectPasswordException, UserNotFoundException, TooManyFailedLoginsException {
