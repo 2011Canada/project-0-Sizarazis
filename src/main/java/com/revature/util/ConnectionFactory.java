@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 	
-	private ConnectionFactory cf = new ConnectionFactory(1);
+	private static ConnectionFactory cf = new ConnectionFactory(1);
 	
-	public ConnectionFactory getConnectionFactory() {
+	public static ConnectionFactory getConnectionFactory() {
 		return cf;
 	}
 	

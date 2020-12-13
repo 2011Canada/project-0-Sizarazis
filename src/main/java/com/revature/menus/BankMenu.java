@@ -3,7 +3,7 @@ package com.revature.menus;
 import java.util.Scanner;
 
 public class BankMenu {
-	BankState state;
+	private BankState state;
 	Scanner in;
 	
 	public BankMenu() {
@@ -18,7 +18,7 @@ public class BankMenu {
 		ChangeState(nextState);
 	}
 
-	public void ChangeState(BankState nextState) {
+	private void ChangeState(BankState nextState) {
 		this.state = nextState;
 	}
 }
