@@ -5,7 +5,9 @@ import com.revature.exceptions.NegativeNumberException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Customer;
 import com.revature.repositories.AccountDAO;
+import com.revature.repositories.AccountPostgresDAO;
 import com.revature.repositories.CustomerDAO;
+import com.revature.repositories.CustomerPostgresDAO;
 import com.revature.services.CustomerTransactionService;
 import com.revature.services.ICustomerTransactionService;
 
@@ -15,7 +17,7 @@ public class CustomerTransactionState implements BankState {
 	
 	public CustomerTransactionState(Customer customer) {
 		this.customer = customer;
-		cts = new CustomerTransactionService(new CustomerDAO(), new AccountDAO());
+		cts = new CustomerTransactionService(new CustomerPostgresDAO(), new AccountPostgresDAO());
 	}
 
 	public String Display() {
@@ -25,7 +27,7 @@ public class CustomerTransactionState implements BankState {
 				"    1. \"balance\"                        --> check the balance of your account.\n" +
 				"    2. \"withdraw [money]\"               --> withdraw money from your account.\n" +
 				"    3. \"deposit [money]\"                --> deposit money to your account.\n" +
-				"    4. \"transfer [from, to, money]\"     --> transfer money to another account.\n" +
+				"    4. \"transfer [to, money]\"           --> transfer money to another account.\n" +
 				"    5. \"logout\"                         --> logout from your account.\n";
 		
 		return s;
@@ -56,10 +58,10 @@ public class CustomerTransactionState implements BankState {
 				
 				cts.Deposit(customer.getAccounts().get(0).GetAccountId(), amount);
 			}
-			else if (split[0].equals("transfer") && split.length == 4) {
-				double amount = Double.parseDouble(cmd.split(" ")[3]);
-				int from_account = Integer.parseInt(split[1]);
-				int to_account = Integer.parseInt(split[2]);
+			else if (split[0].equals("transfer") && split.length == 3) {
+				double amount = Double.parseDouble(cmd.split(" ")[2]);
+				int from_account = customer.getAccounts().get(0).GetAccountId();
+				int to_account = Integer.parseInt(split[1]);
 				System.out.println("\nAttempting to transfer " + amount + " from account: " + from_account + ", to account: " + to_account);
 				
 				cts.Transfer(from_account, to_account, amount);

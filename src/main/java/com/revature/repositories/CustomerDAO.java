@@ -11,11 +11,11 @@ public class CustomerDAO implements ICustomerDAO {
 	static List<Customer> customers = new ArrayList<Customer>();
 	
 	static {
-		Customer c1 = new Customer(123456789, 1, "password123");
-		Customer c2 = new Customer(1, 2, "password123");
-		Customer c3 = new Customer(2, 3, "password123");
-		Customer c4 = new Customer(3, 4, "password123");
-		Customer c5 = new Customer(4, 5, "password123");
+		Customer c1 = new Customer(123456789, 1);
+		Customer c2 = new Customer(1, 2);
+		Customer c3 = new Customer(2, 3);
+		Customer c4 = new Customer(3, 4);
+		Customer c5 = new Customer(4, 5);
 			
 		Account a1 = new Account(1, 10.00, true);
 		c1.addAccount(a1);
@@ -32,18 +32,16 @@ public class CustomerDAO implements ICustomerDAO {
 		customers.add(c5);
 	}
 	
-	public Customer SaveCustomer() {
-		return null;
+	
+	public void SaveCustomer(int customer_id, String password) {
 	}
 
-	public Customer UpdateCustomer(Customer c) {
-		return null;
-	}
 
 	public List<Customer> FindAllCustomers() {
 		return customers;
 	}
 
+	
 	public Customer FindCustomerById(int id) {
 		for (Customer c : customers) {
 			if (c.getCustomerId() == id) {
@@ -51,5 +49,17 @@ public class CustomerDAO implements ICustomerDAO {
 			}
 		}
 		return null;
+	}
+
+	
+	public String GetPassword(int customer_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public int GetNextCustomerId() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

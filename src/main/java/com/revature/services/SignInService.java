@@ -8,7 +8,9 @@ import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.models.User;
 import com.revature.repositories.CustomerDAO;
+import com.revature.repositories.CustomerPostgresDAO;
 import com.revature.repositories.EmployeeDAO;
+import com.revature.repositories.EmployeePostgresDAO;
 import com.revature.repositories.ICustomerDAO;
 import com.revature.repositories.IEmployeeDAO;
 
@@ -20,8 +22,8 @@ public class SignInService implements ISignInService {
 	public static final int MAX_LOGIN_ATTEMPTS = 3;
 	
 	public SignInService() {
-		this.customerDAO = new CustomerDAO();
-		this.employeeDAO = new EmployeeDAO();
+		this.customerDAO = new CustomerPostgresDAO();
+		this.employeeDAO = new EmployeePostgresDAO();
 		
 		loginAttempts = 0;
 		
@@ -69,7 +71,7 @@ public class SignInService implements ISignInService {
 			throw new UserNotFoundException();
 		}
 		// good employee login (if they also have a customer id, then they are expected to go here)
-		else if (employee != null && employee.GetPassword().equals(password)) {
+		else if (employee != null && employeeDAO.GetPassword(employee_id).equals(password)) {
 			return employee;
 		}
 		// bad password
@@ -95,7 +97,7 @@ public class SignInService implements ISignInService {
 			throw new UserNotFoundException();
 		}
 		// good customer login
-		else if (customer != null && customer.GetPassword().equals(password)) {
+		else if (customer != null && customerDAO.GetPassword(customer_id).equals(password)) {
 			return customer;
 		}
 		// bad password
@@ -113,7 +115,9 @@ public class SignInService implements ISignInService {
 	
 	// TODO: Add them to the customer table, (and the user table if they are not there yet). Assign them an account with a 0 balance that is waiting for validation.
 	public Customer Register(int customer_id, String password) {
-		return null;
+		customerDAO.SaveCustomer(customer_id, password);
+		
+		return customerDAO.FindCustomerById(customer_id);
 	}
 
 	
@@ -129,8 +133,9 @@ public class SignInService implements ISignInService {
 	}
 
 	
-	// TODO: contact the database and get the next customer id. They won't need their user id for anything.
 	public int GetNextCustomerId() {
-		return 1;
+		int nextCustomerId = customerDAO.GetNextCustomerId();
+		
+		return nextCustomerId;
 	}
 }

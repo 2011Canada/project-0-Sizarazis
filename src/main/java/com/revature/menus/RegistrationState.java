@@ -53,6 +53,8 @@ public class RegistrationState implements BankState {
 		if (!willingToRegister && cmd.equals("register")) {
 			willingToRegister = true;
 			
+			//TODO: refactor this so that the customer_id is assigned after the customer is created. 
+			//		It won't matter for this project, but this customer_id might be taken by the time the SQL query exectures
 			customer_id = signInService.GetNextCustomerId();
 			System.out.println("Your Bank of Byte customer ID will be: " + customer_id);
 			

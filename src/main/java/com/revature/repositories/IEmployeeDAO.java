@@ -4,8 +4,10 @@ import com.revature.models.Employee;
 
 public interface IEmployeeDAO {
 
-	Employee FindEmployeeById(int id);
+	Employee FindEmployeeById(int employee_id);
 	
 	String GetTransactionLogs();
+	
+	String GetPassword(int employee_id);
 
 }

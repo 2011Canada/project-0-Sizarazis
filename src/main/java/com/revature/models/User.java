@@ -7,24 +7,14 @@ public abstract class User implements Displayable {
 	
 	
 	// constructors
-	public User(int user_id, String password) {
+	public User(int user_id) {
 		this.user_id = user_id;
-		this.password = password;
 	}
 	
 	
 	// getters and setters
 	public int GetUserId() {
 		return this.user_id;
-	}
-	
-	// note: I may want to protect access to passwords
-	public String GetPassword() {
-		return this.password;
-	}
-	
-	public void SetPassword(String nextPassword) {
-		this.password = nextPassword;
 	}
 
 	

@@ -6,11 +6,11 @@ import com.revature.models.Customer;
 
 public interface ICustomerDAO {
 
-	public Customer SaveCustomer();
+	public void SaveCustomer(int customer_id, String password);
 	
-	public Customer UpdateCustomer(Customer c);
+	public Customer FindCustomerById(int customer_id);
 	
-	public List<Customer> FindAllCustomers();
+	public String GetPassword(int customer_id);
 	
-	public Customer FindCustomerById(int id);
+	public int GetNextCustomerId();
 }

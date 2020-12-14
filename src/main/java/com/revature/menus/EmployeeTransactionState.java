@@ -5,12 +5,16 @@ import com.revature.exceptions.NegativeNumberException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Employee;
 import com.revature.repositories.AccountDAO;
+import com.revature.repositories.AccountPostgresDAO;
 import com.revature.repositories.CustomerDAO;
 import com.revature.repositories.EmployeeDAO;
+import com.revature.repositories.EmployeePostgresDAO;
 import com.revature.services.CustomerTransactionService;
 import com.revature.services.EmployeeTransactionService;
 import com.revature.services.ICustomerTransactionService;
 import com.revature.services.IEmployeeTransactionService;
+
+// TODO: I should allow an employee to make an account from here, so they register for an account with their user information already filled out
 
 public class EmployeeTransactionState implements BankState {
 	boolean hasShownTop = false;
@@ -23,7 +27,7 @@ public class EmployeeTransactionState implements BankState {
 	public EmployeeTransactionState(Employee employee) {
 		this.employee = employee;
 	
-		this.ets = new EmployeeTransactionService(new EmployeeDAO(), new AccountDAO());
+		this.ets = new EmployeeTransactionService(new EmployeePostgresDAO(), new AccountPostgresDAO());
 	}
 
 
@@ -90,8 +94,10 @@ public class EmployeeTransactionState implements BankState {
 					System.out.println("Transferring...");
 					ets.TransferMoney(Integer.parseInt(split[1]), Integer.parseInt(split[2]), amount);
 					System.out.println("Transfered " + amount + " from account:" + split[1] + " to account:" + split[2]);
-					System.out.println("Account:" + split[1] + ", updated balance:" + ets.CheckBalance(Integer.parseInt(split[1])));
-					System.out.println("Account:" + split[2] + ", updated balance:" + ets.CheckBalance(Integer.parseInt(split[2])) + "\n");
+					
+					//TODO: There might be a bug in checkBalance
+					//System.out.println("Account:" + split[1] + ", updated balance:" + ets.CheckBalance(Integer.parseInt(split[1])));
+					//System.out.println("Account:" + split[2] + ", updated balance:" + ets.CheckBalance(Integer.parseInt(split[2])) + "\n");
 					
 				}
 				// TODO: I should have a specific exception for AccountNotFoundException. Using UserNotFoundException is not good enough.

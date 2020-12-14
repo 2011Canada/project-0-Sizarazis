@@ -11,7 +11,7 @@ public class EmployeeDAO implements IEmployeeDAO {
 
 	
 	static {
-		Employee employee = new Employee(1, 11, "password123");
+		Employee employee = new Employee(1, 11);
 		employees.add(employee);
 	}
 
@@ -28,6 +28,11 @@ public class EmployeeDAO implements IEmployeeDAO {
 	
 	public String GetTransactionLogs() {
 		return "";
+	}
+
+	public String GetPassword(int employee_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -6,9 +6,9 @@ import com.revature.models.Account;
 
 
 public interface IAccountDAO {
-	public Account SaveAccount(Account account);
+	public void SaveAccount(Account account, int customer_id);
 	
-	public Account UpdateAccount(Account account);
+	public void UpdateAccount(Account account);
 	
 	public List<Account> FindAllAccounts();
 	

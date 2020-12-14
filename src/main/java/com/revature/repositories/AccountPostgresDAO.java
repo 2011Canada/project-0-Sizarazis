@@ -9,46 +9,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Account;
-import com.revature.models.Customer;
 import com.revature.util.ConnectionFactory;
 
-
-public class CustomerPostgresDAO implements ICustomerDAO {
-	
+public class AccountPostgresDAO implements IAccountDAO {
 	static ConnectionFactory cf;
 	
-	public CustomerPostgresDAO() {
+	
+	public AccountPostgresDAO() {
 		cf = ConnectionFactory.getConnectionFactory();
 	}
 	
 	
-	// Adds the new user to the users table, the customers table, and sets up an account in the accounts table for them
-	public void SaveCustomer(int customer_id, String password) {
+	public void SaveAccount(Account account, int customer_id) {
 		Connection conn = cf.getConnection();
-		
-		String sqlUser = "INSERT INTO bankofbyte.users (user_password) VALUES (?);";
-		String sqlCustomer = "INSERT INTO bankofbyte.customer (user_id) VALUES (?);";
-		String sqlAccount = "INSERT INTO bankofbyte.account (date_created, balance, is_validated, customer_id) VALUES (?, ?, ?, ?);";
+
+		String sql = "INSERT INTO bankofbyte.account (date_created, balance, is_validated, customer_id) VALUES (?, ?, ?, ?);";
 		
 		try {
 			conn.setAutoCommit(false);
 			
-			PreparedStatement psUser = conn.prepareStatement(sqlUser);
-			psUser.setString(1, password);
-			psUser.executeUpdate();
-			
-			PreparedStatement psCustomer = conn.prepareStatement(sqlCustomer);
-			int user_id = GetNextUserId() - 1;
-			psCustomer.setInt(1, user_id);
-			psCustomer.executeUpdate();
-			
-			PreparedStatement psAccount = conn.prepareStatement(sqlAccount);
+			PreparedStatement ps = conn.prepareStatement(sql);
 			Timestamp now = new Timestamp(System.currentTimeMillis());
-			psAccount.setTimestamp(1, now);
-			psAccount.setDouble(2, 0.00);
-			psAccount.setBoolean(3, false);
-			psAccount.setInt(4, customer_id);
-			psAccount.executeUpdate();
+			
+			ps.setTimestamp(1, now);
+			ps.setDouble(2, 0.00);
+			ps.setBoolean(3, false);
+			ps.setInt(4, customer_id);
+			
+			ps.executeUpdate();
 			
 			conn.commit();
 		}
@@ -73,35 +61,26 @@ public class CustomerPostgresDAO implements ICustomerDAO {
 		}
 	}
 
-
-	public Customer FindCustomerById(int id) {
+	
+	public void UpdateAccount(Account account) {
 		Connection conn = cf.getConnection();
 		
-		String sql = "SELECT * FROM bankofbyte.customer WHERE customer_id = ?;";
-		
-		Customer c = null;
+		String sql = "UPDATE bankofbyte.account SET balance = ?, is_validated = ? WHERE account_id = ?;";
 		
 		try {
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setDouble(1, account.GetBalance());
+			ps.setBoolean(2, account.GetVerification());
+			ps.setInt(3, account.GetAccountId());
 			
-			ps.setInt(1, id);
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				int user_id = rs.getInt("user_id");
-				int customer_id = rs.getInt("customer_id");
-				c = new Customer(user_id, customer_id);
-			}
-			
-			if (c != null) {
-				c.setAccounts(GetAccounts(c));
-			}
+			ps.executeUpdate();
 		}
 		catch (SQLException e1) {
 			e1.printStackTrace();
 			if (conn != null) {
 				try {
+					//TODO: LOG THIS
 					System.out.println("Transaction is being rolled back.");
 					conn.rollback();
 				}
@@ -110,40 +89,36 @@ public class CustomerPostgresDAO implements ICustomerDAO {
 				}
 			}
 		}
-		finally {
-			//TODO: SEE WHAT ALEC DOES IN HIS CODE HERE
-		}
-		return c;
 	}
+
 	
-	
-	private List<Account> GetAccounts(Customer c) {
+	public List<Account> FindAllAccounts() {
 		Connection conn = cf.getConnection();
 		
-		String sql = "SELECT a.account_id, a.balance, a.is_validated FROM bankofbyte.account a, bankofbyte.customer c WHERE c.customer_id = ? AND c.customer_id = a.customer_id;";
-		
+		String sql = "SELECT * FROM bankofbyte.account;";
+
 		List<Account> accounts = new ArrayList<Account>();
 		
 		try {
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, c.getCustomerId());
 			ResultSet rs = ps.executeQuery();
 			
 			while (rs.next()) {
 				int account_id = rs.getInt("account_id");
-				double amount = rs.getDouble("balance");
-				boolean is_validated = rs.getBoolean("is_validated");
-				Account a = new Account(account_id, amount, is_validated);
+				double balance = rs.getDouble("balance");
+				boolean isValidated = rs.getBoolean("is_validated");
+				
+				Account a = new Account(account_id, balance, isValidated);
 				accounts.add(a);
 			}
-
 		}
 		catch (SQLException e1) {
 			e1.printStackTrace();
 			if (conn != null) {
 				try {
+					//TODO: LOG THIS
 					System.out.println("Transaction is being rolled back.");
 					conn.rollback();
 				}
@@ -152,25 +127,31 @@ public class CustomerPostgresDAO implements ICustomerDAO {
 				}
 			}
 		}
+		
 		return accounts;
 	}
 
 	
-	public String GetPassword(int customer_id) {
+	public List<Account> FindAllCustomersAccounts(int customer_id) {
 		Connection conn = cf.getConnection();
 		
-		String sql = "SELECT u.user_password FROM bankofbyte.users u, bankofbyte.customer c WHERE c.customer_id = ? AND c.user_id = u.user_id;";
-		String password = "";		
+		String sql = "SELECT * FROM bankofbyte.account a, bankofbyte.customer c WHERE c.customer_id = ? AND a.customer_id = c.customer_id;";
+
+		List<Account> accounts = new ArrayList<Account>();
 		
 		try {
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
-			
 			ps.setInt(1, customer_id);
 			ResultSet rs = ps.executeQuery();
 			
 			while (rs.next()) {
-				password = rs.getString("user_password");
+				int account_id = rs.getInt("account_id");
+				double balance = rs.getDouble("balance");
+				boolean isValidated = rs.getBoolean("is_validated");
+				
+				Account a = new Account(account_id, balance, isValidated);
+				accounts.add(a);
 			}
 		}
 		catch (SQLException e1) {
@@ -187,68 +168,80 @@ public class CustomerPostgresDAO implements ICustomerDAO {
 			}
 		}
 		
-		return password;
+		return accounts;
 	}
-	
-	public int GetNextCustomerId() {
-		Connection conn = cf.getConnection();
-		
-		String sql = "SELECT MAX(customer_id) FROM bankofbyte.customer;";
-		int nextId = 0;	
-		
-		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				nextId = rs.getInt("max");
-			}
-		}
-		catch (SQLException e1) {
-			e1.printStackTrace();
-			if (conn != null) {
-				try {
-					//TODO: LOG THIS
-					System.out.println("Transaction is being rolled back.");
-					conn.rollback();
-				}
-				catch (SQLException e2) {
-					e2.printStackTrace();
-				}
-			}
-		}
-		
-		return nextId + 1;
-	}
-	
-	public int GetNextUserId() {
-		Connection conn = cf.getConnection();
-		
-		String sql = "SELECT MAX(user_id) FROM bankofbyte.users;";
-		int nextId = 0;	
-		
-		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				nextId = rs.getInt("max") + 1;
-			}
-		}
-		catch (SQLException e1) {
-			e1.printStackTrace();
-			if (conn != null) {
-				try {
-					//TODO: LOG THIS
-					System.out.println("Transaction is being rolled back.");
-					conn.rollback();
-				}
-				catch (SQLException e2) {
-					e2.printStackTrace();
-				}
-			}
-		}
 
-		return nextId;
+	
+	public Account FindAccountById(int account_id) {
+		Connection conn = cf.getConnection();
+		
+		String sql = "SELECT * FROM bankofbyte.account WHERE account_id = ?;";
+
+		Account a = null;
+		
+		try {
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, account_id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				double balance = rs.getDouble("balance");
+				boolean isValidated = rs.getBoolean("is_validated");
+				a = new Account(account_id, balance, isValidated);
+			}
+		}
+		catch (SQLException e1) {
+			e1.printStackTrace();
+			if (conn != null) {
+				try {
+					//TODO: LOG THIS
+					System.out.println("Transaction is being rolled back.");
+					conn.rollback();
+				}
+				catch (SQLException e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+		
+		return a;
 	}
+
+	
+	public double GetAccountBalance(int account_id) {
+		Connection conn = cf.getConnection();
+		
+		String sql = "SELECT balance FROM bankofbyte.account WHERE account_id = ?;";
+		double balance = 0;		
+		
+		try {
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, account_id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				balance = rs.getDouble("balance");
+			}
+		}
+		catch (SQLException e1) {
+			e1.printStackTrace();
+			if (conn != null) {
+				try {
+					//TODO: LOG THIS
+					System.out.println("Transaction is being rolled back.");
+					conn.rollback();
+				}
+				catch (SQLException e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+		
+		return balance;
+	}
+
 }

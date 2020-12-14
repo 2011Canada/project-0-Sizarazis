@@ -9,8 +9,8 @@ public class Customer extends User {
 	
 	
 	// constructors
-	public Customer(int user_id, int customer_id, String password) {
-		super(user_id, password);
+	public Customer(int user_id, int customer_id) {
+		super(user_id);
 		
 		this.customer_id = customer_id;
 		this.accounts = new ArrayList<Account>();

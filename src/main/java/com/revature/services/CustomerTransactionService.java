@@ -30,21 +30,20 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 	
 	public double Withdraw(int account_id, double amount) throws InsufficientFundsException, NegativeNumberException {
 		Account a = accountDAO.FindAccountById(account_id);
-		double balance = a.GetBalance();
 		
 		if (amount < 0) {
 			throw new NegativeNumberException();
 		}
-		else if (amount > balance) {
+		else if (amount > a.GetBalance()) {
 			throw new InsufficientFundsException();
 		}
 		else {
-			a.SetBalance(balance - amount);
-			balance = a.GetBalance();
+			a.SetBalance(a.GetBalance() - amount);
 			accountDAO.UpdateAccount(a);
 			
-			System.out.println("Transaction complete. Your new account balance is: " + balance);
-			return balance;
+			double newBal = accountDAO.GetAccountBalance(account_id);
+			System.out.println("Transaction complete. Your new account balance is: " + newBal);
+			return newBal;
 		}
 	}
 

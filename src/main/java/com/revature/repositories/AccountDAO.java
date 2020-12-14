@@ -1,19 +1,22 @@
 package com.revature.repositories;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.revature.models.Account;
+import com.revature.util.ConnectionFactory;
 
 public class AccountDAO implements IAccountDAO{
-
-	public Account SaveAccount(Account account) {
+	
+	public void SaveAccount(Account account, int customer_id) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
-	public Account UpdateAccount(Account account) {
+	public void UpdateAccount(Account account) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public List<Account> FindAllAccounts() {
