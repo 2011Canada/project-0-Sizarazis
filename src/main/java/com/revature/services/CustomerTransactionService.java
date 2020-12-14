@@ -64,9 +64,12 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 	public void Transfer(int from_account, int to_account, double amount) throws InsufficientFundsException, NegativeNumberException, UserNotFoundException {
 		Account from = accountDAO.FindAccountById(from_account);
 		Account to = accountDAO.FindAccountById(to_account);
+		double fromBal = 0;
 		
-		double fromBal = from.GetBalance();
-		double toBal = to.GetBalance();
+		if (from != null) {
+		fromBal = from.GetBalance();
+		}
+		
 		
 		if (from == null || to == null) {
 			throw new UserNotFoundException();
@@ -78,6 +81,8 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 			throw new InsufficientFundsException();
 		}
 		else {
+			double toBal = to.GetBalance();
+			
 			from.SetBalance(fromBal - amount);
 			to.SetBalance(toBal + amount);
 			
