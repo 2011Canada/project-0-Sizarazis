@@ -1,6 +1,7 @@
 package com.revature.menus;
 
 import com.revature.exceptions.MalformedPasswordException;
+import com.revature.launcher.BankOfByteLauncher;
 import com.revature.services.ISignInService;
 import com.revature.services.SignInService;
 
@@ -85,6 +86,9 @@ public class RegistrationState implements BankState {
 				signInService.Register(customer_id, password);
 				System.out.println("\nCongratulations on registering for a Bank of Byte account!" + 
 									"\nYou will be able to login after one of our many employees has validated your account\n");
+				
+				BankOfByteLauncher.BoBLogger.info("New customer registered, with the ID:" + customer_id);
+				
 				return new WelcomeState();
 			}
 			else {

@@ -1,5 +1,6 @@
 package com.revature.menus;
 
+import com.revature.launcher.BankOfByteLauncher;
 import com.revature.models.Employee;
 import com.revature.repositories.AccountPostgresDAO;
 import com.revature.repositories.EmployeePostgresDAO;
@@ -125,6 +126,7 @@ public class EmployeeTransactionState implements BankState {
 	
 	
 	public void Logout() {
+		BankOfByteLauncher.BoBLogger.info("Employee logged off, with the ID:" + employee.GetEmployeeId());
 		System.out.println("\nConnection closed.");
 		System.exit(0);
 	}

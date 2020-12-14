@@ -3,6 +3,7 @@ package com.revature.menus;
 import com.revature.exceptions.InsufficientFundsException;
 import com.revature.exceptions.NegativeNumberException;
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.launcher.BankOfByteLauncher;
 import com.revature.models.Customer;
 import com.revature.repositories.AccountPostgresDAO;
 import com.revature.repositories.CustomerPostgresDAO;
@@ -96,6 +97,7 @@ public class CustomerTransactionState implements BankState {
 	}
 	
 	public void Logout() {
+		BankOfByteLauncher.BoBLogger.info("Customer logged off, with the ID:" + customer.getCustomerId());
 		System.out.println("\nConnection closed.");
 		System.exit(0);
 	}

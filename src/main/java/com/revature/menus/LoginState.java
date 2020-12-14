@@ -1,6 +1,7 @@
 package com.revature.menus;
 
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.launcher.BankOfByteLauncher;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,11 +69,17 @@ public class LoginState implements BankState {
 					// attempt employee login
 					if (isEmployeeLogin) {
 						Employee employee = signInService.EmployeeLogin(id, pw);
+						
+						BankOfByteLauncher.BoBLogger.info("Employee Login with ID:" + id);
+						
 						return new EmployeeTransactionState(employee);
 					}
 					// attempt customer login
 					else {
 						Customer customer = signInService.CustomerLogin(id, pw);
+						
+						BankOfByteLauncher.BoBLogger.info("Customer Login with ID:" + id);
+						
 						return new CustomerTransactionState(customer);
 					}
 				}
@@ -88,8 +95,6 @@ public class LoginState implements BankState {
 			}
 			catch (TooManyFailedLoginsException e) {
 				System.out.println("Too many failed login attempts.\n");
-				
-				//BoBLogger.info("User: " + id + " has failed to login 3 times in a row.");
 				
 				return new WelcomeState();
 			}

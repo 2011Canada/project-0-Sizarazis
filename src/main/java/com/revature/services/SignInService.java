@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.launcher.BankOfByteLauncher;
 import com.revature.exceptions.IncorrectPasswordException;
 import com.revature.exceptions.MalformedPasswordException;
 import com.revature.exceptions.TooManyFailedLoginsException;
@@ -47,6 +48,7 @@ public class SignInService implements ISignInService {
 				throw new IncorrectPasswordException();
 			}
 			else {
+				BankOfByteLauncher.BoBLogger.info("Employee: " + employee_id + " has failed to login 3 times in a row.");
 				throw new TooManyFailedLoginsException();
 			}
 		}
@@ -73,6 +75,7 @@ public class SignInService implements ISignInService {
 				throw new IncorrectPasswordException();
 			}
 			else {
+				BankOfByteLauncher.BoBLogger.info("Customer: " + customer_id + " has failed to login 3 times in a row.");
 				throw new TooManyFailedLoginsException();
 			}
 		}
