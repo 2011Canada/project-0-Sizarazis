@@ -6,8 +6,8 @@ set schema 'bankofbyte';
 create table users (
 	user_id serial primary key,
 	user_password text not null,
-	first_name text not null,
-	last_name text not null,
+	first_name text,
+	last_name text,
 	birth_date timestamp,
 	email text,
 	phone int,
@@ -41,8 +41,7 @@ create table transaction_logs (
 	transaction_type text not null,
 	amount numeric(10,2) not null,
 	from_account int references account (account_id),
-	to_account int references account (account_id),
-	is_finished boolean not null
+	to_account int references account (account_id)
 );
 
 
@@ -89,17 +88,25 @@ insert into account (date_created, balance, is_validated, customer_id)
 insert into account (date_created, balance, is_validated, customer_id)
 			values ('2020-12-12', 500.00, true, 1);
 
-
-insert into transaction_logs (transaction_type, amount, from_account, is_finished)
-			values ('WITHDRAW', 100.00, 1, true);
-insert into transaction_logs (transaction_type, amount, to_account, is_finished)
-			values ('DEPOSIT', 100.00, 5, true);
-insert into transaction_logs (transaction_type, amount, from_account, to_account, is_finished)
-			values ('TRANSFER', 100.00, 1, 5, false);
+--transaction logs
+insert into transaction_logs (transaction_type, amount, from_account)
+			values ('WITHDRAW', 100.00, 1);
+insert into transaction_logs (transaction_type, amount, to_account)
+			values ('DEPOSIT', 100.00, 5);
+insert into transaction_logs (transaction_type, amount, from_account, to_account)
+			values ('TRANSFER', 100.00, 1, 5);
 		
 commit;
-
-		
+	
 select * from users;
-
+select * from customer;
+select * from account;
+select * from employee;
 select * from transaction_logs;
+
+--select a.account_id, a.balance, a.is_validated from account a, customer c where c.customer_id = 1 and c.customer_id = a.customer_id;
+--SELECT * FROM bankofbyte.account a, bankofbyte.customer c WHERE c.customer_id = 1 AND a.customer_id = c.customer_id;
+--select MAX(customer_id) from customer;
+
+--select u.user_password from users u, customer c where c.customer_id = 1 and c.user_id = u.user_id; 
+	
