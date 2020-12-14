@@ -12,5 +12,5 @@ public interface ICustomerDAO {
 	
 	public List<Customer> FindAllCustomers();
 	
-	public Customer FindCustomerById(String id);
+	public Customer FindCustomerById(int id);
 }

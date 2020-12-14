@@ -2,20 +2,20 @@ package com.revature.models;
 
 public abstract class User implements Displayable {
 	
-	private final String id;
-	private String password;
+	protected final int user_id;
+	protected String password;
 	
 	
 	// constructors
-	public User(String id, String password) {
-		this.id = id;
+	public User(int user_id, String password) {
+		this.user_id = user_id;
 		this.password = password;
 	}
 	
 	
 	// getters and setters
-	public String GetId() {
-		return this.id;
+	public int GetUserId() {
+		return this.user_id;
 	}
 	
 	// note: I may want to protect access to passwords
@@ -30,23 +30,25 @@ public abstract class User implements Displayable {
 	
 	// overridden default methods
 	public String Display() {
-		return "ID: " + this.id;
+		return "ID: " + this.user_id;
 	}
 	
 	@Override
 	public String toString() {
-		return "User [ID=" + id + "]";
+		return "User [ID=" + user_id + "]";
 	}
 
+
+	// note: at the moment an id is the only thing equality is based on 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + user_id;
 		return result;
 	}
 
-	// note: at the moment an id is the only thing equality is based on 
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -56,14 +58,9 @@ public abstract class User implements Displayable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (user_id != other.user_id)
 			return false;
 		return true;
-	}
-	
-	
+	}	
 	
 }

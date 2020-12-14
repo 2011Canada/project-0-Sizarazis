@@ -8,6 +8,9 @@ import java.util.List;
 import com.revature.models.Customer;
 import com.revature.util.ConnectionFactory;
 
+
+//NOTE: In many cases, when I update a customer I will also have to update all of their accounts
+
 public class CustomerPostgresDAO implements ICustomerDAO {
 	
 	static ConnectionFactory cf;
@@ -31,25 +34,25 @@ public class CustomerPostgresDAO implements ICustomerDAO {
 		return null;
 	}
 
-	public Customer FindCustomerById(String id) throws SQLException {
-		// TODO Auto-generated method stub
-		Connection conn = cf.getConnection();
-		
-		try {
-			
-		String sql = "SELECT * FROM users WHERE user_id = ?;";
-		// FILL ?
-		PreparedStatement ps = conn.prepareStatement(sql);
-		conn.SOMETHING();
-		
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		finally {
-			//stop conn, look at Alec's code
-		}
-		if (SOMETHING.next())
+	public Customer FindCustomerById(int id) {
+//		// TODO Auto-generated method stub
+//		Connection conn = cf.getConnection();
+//		
+//		try {
+//			
+//		String sql = "SELECT * FROM users WHERE user_id = ?;";
+//		// FILL ?
+//		PreparedStatement ps = conn.prepareStatement(sql);
+//		conn.SOMETHING();
+//		
+//		}
+//		catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		finally {
+//			//stop conn, look at Alec's code
+//		}
+//		if (SOMETHING.next())
 		return null;
 		
 	}

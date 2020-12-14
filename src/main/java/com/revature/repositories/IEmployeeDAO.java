@@ -4,6 +4,8 @@ import com.revature.models.Employee;
 
 public interface IEmployeeDAO {
 
-	Employee FindEmployeeById(String id);
+	Employee FindEmployeeById(int id);
+	
+	String GetTransactionLogs();
 
 }

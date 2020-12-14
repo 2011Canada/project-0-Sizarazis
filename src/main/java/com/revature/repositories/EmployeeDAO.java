@@ -11,19 +11,23 @@ public class EmployeeDAO implements IEmployeeDAO {
 
 	
 	static {
-		Employee employee = new Employee("stephen", "password123");
+		Employee employee = new Employee(1, 11, "password123");
 		employees.add(employee);
 	}
 
 	
-	//TODO
-	public Employee FindEmployeeById(String id) {
+	public Employee FindEmployeeById(int employee_id) {
 		for (Employee e : employees) {
-			if (id.equals(e.GetId())) {
+			if (employee_id == e.GetEmployeeId()) {
+				System.out.println("Found employee");
 				return e;
 			}
 		}
 		return null;
+	}
+	
+	public String GetTransactionLogs() {
+		return "";
 	}
 
 }

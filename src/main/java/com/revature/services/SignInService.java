@@ -27,21 +27,72 @@ public class SignInService implements ISignInService {
 		
 	}
 	
-	// TODO: WHAT ACCOUNT WILL AN EMPLOYEE HAVE IF THEY ARE BOTH A CUSTOMER AND AN EMPLOYEE
-	// TODO: Keep a database of users that are online????
-	// ALSO: I may want to hide the password in the console
-	// ALSO: Right now, if an employee signs in they will only sign-in as an employee
-	public User Login(String id, String password) throws IncorrectPasswordException, UserNotFoundException, TooManyFailedLoginsException {
-		Customer customer = customerDAO.FindCustomerById(id);
-		Employee employee = employeeDAO.FindEmployeeById(id);
+	
+	
+//	public User Login(int id, String password) throws IncorrectPasswordException, UserNotFoundException, TooManyFailedLoginsException {
+//		Employee employee = employeeDAO.FindEmployeeById(id);
+//		Customer customer = customerDAO.FindCustomerById(id);
+//		
+//		// bad username
+//		if (customer == null && employee == null) {
+//			throw new UserNotFoundException();
+//		}
+//		// good employee login (if they also have a customer id, then they are expected to go here)
+//		else if (employee != null && employee.GetPassword().equals(password)) {
+//			return employee;
+//		}
+//		// good customer login
+//		else if (customer != null && customer.GetPassword().equals(password)) {
+//			return customer;
+//		}
+//		// bad password
+//		else {
+//			loginAttempts++;
+//			if (loginAttempts < MAX_LOGIN_ATTEMPTS) {
+//				throw new IncorrectPasswordException();
+//			}
+//			else {
+//				throw new TooManyFailedLoginsException();
+//			}
+//		}
+//	}
+	
+	
+	
+	// NOTE: I may want to hide the password in the console
+	public Employee EmployeeLogin(int employee_id, String password)
+			throws IncorrectPasswordException, UserNotFoundException, TooManyFailedLoginsException {
+		Employee employee = employeeDAO.FindEmployeeById(employee_id);
 		
 		// bad username
-		if (customer == null && employee == null) {
+		if (employee == null) {
 			throw new UserNotFoundException();
 		}
-		// good employee login
+		// good employee login (if they also have a customer id, then they are expected to go here)
 		else if (employee != null && employee.GetPassword().equals(password)) {
 			return employee;
+		}
+		// bad password
+		else {
+			loginAttempts++;
+			if (loginAttempts < MAX_LOGIN_ATTEMPTS) {
+				throw new IncorrectPasswordException();
+			}
+			else {
+				throw new TooManyFailedLoginsException();
+			}
+		}
+	}
+
+	
+	// NOTE: I may want to hide the password in the console
+	public Customer CustomerLogin(int customer_id, String password)
+			throws IncorrectPasswordException, UserNotFoundException, TooManyFailedLoginsException {
+		Customer customer = customerDAO.FindCustomerById(customer_id);
+		
+		// bad username
+		if (customer == null) {
+			throw new UserNotFoundException();
 		}
 		// good customer login
 		else if (customer != null && customer.GetPassword().equals(password)) {
@@ -59,8 +110,9 @@ public class SignInService implements ISignInService {
 		}
 	}
 
-	// TODO
-	public Customer Register(String id, String password) {
+	
+	// TODO: Add them to the customer table, (and the user table if they are not there yet). Assign them an account with a 0 balance that is waiting for validation.
+	public Customer Register(int customer_id, String password) {
 		return null;
 	}
 
@@ -77,8 +129,8 @@ public class SignInService implements ISignInService {
 	}
 
 	
-	// TODO
-	public String GenerateId() {
-		return "1234";
+	// TODO: contact the database and get the next customer id. They won't need their user id for anything.
+	public int GetNextCustomerId() {
+		return 1;
 	}
 }

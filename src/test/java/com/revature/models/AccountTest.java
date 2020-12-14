@@ -14,9 +14,9 @@ public class AccountTest {
 	
 	
 	@BeforeEach
-	public void setAccount() {
-		account = new Account();
-	}
+//	public void setAccount() {
+//		account = new Account();
+//	}
 	
 	@Test
 	public void TestBalance() {

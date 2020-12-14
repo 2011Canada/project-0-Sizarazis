@@ -1,19 +1,26 @@
 package com.revature.menus;
 
 import com.revature.exceptions.UserNotFoundException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.revature.exceptions.IncorrectPasswordException;
 import com.revature.exceptions.TooManyFailedLoginsException;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
-import com.revature.models.User;
 import com.revature.services.ISignInService;
 import com.revature.services.SignInService;
 
 public class LoginState implements BankState {
-	String id = "";
+	int id = -1;
 	String pw = "";
+	boolean hasAskedForSignIn = false;
+	boolean isEmployeeLogin = false;
+	
 	ISignInService signInService;
-
+	
+	public static Logger BoBLogger = LogManager.getLogger("com.revature.BoB");
 	
 	public LoginState() {
 		this.signInService = new SignInService();
@@ -21,43 +28,57 @@ public class LoginState implements BankState {
 	
 	public String Display() {
 		String s = "";
-		if (id.equals("")) {
-			s = "\nPlease enter your ID: ";
-		} 
-		else {
-			s = "\nPlease enter your password: ";
+		if (hasAskedForSignIn) {
+			if (id < 0) {
+				s = "\nPlease enter your ID: ";
+			} 
+			else {
+				s = "\nPlease enter your password: ";
+			}
 		}
+		else {
+			s = "\nType \"employee\" for the employee login portal, otherwise type \"customer\".\n";
+		}
+		
 		return s;
 	}
 
 	// TODO: enable users to go back to the welcome page
-	// TODO: figure out how to handle employees that are also customers
 	public BankState HandleUserInput(String cmd) {
-		if (id.equals("")) {
-			id = cmd;
-			return this;
+		if (!hasAskedForSignIn) {
+			if (cmd.equals("employee")) {
+				hasAskedForSignIn = true;
+				isEmployeeLogin = true;
+			}
+			else if (cmd.equals("customer")) {
+				hasAskedForSignIn = true;
+			}
 		}
 		else {
-			pw = cmd;
-			
 			try {
-				User user = signInService.Login(id,  pw);
-				
-				// employee sign-in
-				if (user instanceof Employee) {
-					return new EmployeeTransactionState((Employee)user);
-				}
-				// customer sign-in
-				else if (user instanceof Customer) {
-					return new CustomerTransactionState((Customer)user);
-				}
-				else {
-					System.out.println("SOMETHING WEIRD HAPPENED!!!");
+				// assign id
+				if (id < 0) {
+					id = Integer.parseInt(cmd);
 					return this;
+				}
+				// assign password and attempt login
+				else {
+					pw = cmd;
+
+					// attempt employee login
+					if (isEmployeeLogin) {
+						Employee employee = signInService.EmployeeLogin(id, pw);
+						return new EmployeeTransactionState(employee);
+					}
+					// attempt customer login
+					else {
+						Customer customer = signInService.CustomerLogin(id, pw);
+						return new CustomerTransactionState(customer);
+					}
 				}
 			}
 			catch (UserNotFoundException e) {
-				id = "";
+				id = -1;
 				pw = "";
 				System.out.println("User not found. Please enter a valid ID.");
 			}
@@ -67,10 +88,17 @@ public class LoginState implements BankState {
 			}
 			catch (TooManyFailedLoginsException e) {
 				System.out.println("Too many failed login attempts.\n");
+				
+				//BoBLogger.info("User: " + id + " has failed to login 3 times in a row.");
+				
 				return new WelcomeState();
 			}
-			return this;
+			catch (NumberFormatException e) {
+				System.out.println("\nInvalid ID. Your ID will be a number.\n");
+			}
 		}
+		
+		return this;
 	}
 
 }

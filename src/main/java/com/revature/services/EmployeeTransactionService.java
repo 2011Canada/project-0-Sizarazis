@@ -5,40 +5,41 @@ import java.util.List;
 import com.revature.exceptions.InsufficientFundsException;
 import com.revature.exceptions.NegativeNumberException;
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.models.Account;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
-import com.revature.repositories.ICustomerDAO;
+import com.revature.repositories.IAccountDAO;
 import com.revature.repositories.IEmployeeDAO;
 
 public class EmployeeTransactionService implements IEmployeeTransactionService {
 	IEmployeeDAO employeeDAO;
-	ICustomerDAO customerDAO;
+	IAccountDAO accountDAO;
 	
-	public EmployeeTransactionService(IEmployeeDAO employeeDAO, ICustomerDAO customerDAO) {
+	public EmployeeTransactionService(IEmployeeDAO employeeDAO, IAccountDAO accountDAO) {
 		this.employeeDAO = employeeDAO;
-		this.customerDAO = customerDAO;
+		this.accountDAO = accountDAO;
 	}
 
-	public void ApproveAccount(String id) {
-		Customer c = customerDAO.FindCustomerById(id);
-		c.SetRegistration(true);
-		customerDAO.UpdateCustomer(c);
+	public void ApproveAccount(int account_id) {
+		Account a = accountDAO.FindAccountById(account_id);
+		a.SetVerification(true);
+		accountDAO.UpdateAccount(a);
 	}
 
-	public void RejectAccount(String id) {
-		Customer c = customerDAO.FindCustomerById(id);
-		c.SetRegistration(false);
-		customerDAO.UpdateCustomer(c);
+	public void RejectAccount(int account_id) {
+		Account a = accountDAO.FindAccountById(account_id);
+		a.SetVerification(false);
+		accountDAO.UpdateAccount(a);
 	}
 
-	public void TransferMoney(String from, String to, double amount) throws NegativeNumberException, InsufficientFundsException, UserNotFoundException {
-		Customer fromC = customerDAO.FindCustomerById(from);
-		Customer toC = customerDAO.FindCustomerById(to);
+	public void TransferMoney(int from, int to, double amount) throws NegativeNumberException, InsufficientFundsException, UserNotFoundException {
+		Account fromAccount = accountDAO.FindAccountById(from);
+		Account toAccount = accountDAO.FindAccountById(to);
 		
-		double fromBal = fromC.GetBalance();
-		double toBal = toC.GetBalance();
+		double fromBal = fromAccount.GetBalance();
+		double toBal = toAccount.GetBalance();
 		
-		if (fromC == null || toC == null) {
+		if (fromAccount == null || toAccount == null) {
 			throw new UserNotFoundException();
 		}
 		else if (amount < 0) {
@@ -48,28 +49,44 @@ public class EmployeeTransactionService implements IEmployeeTransactionService {
 			throw new InsufficientFundsException();
 		}
 		else {
-			fromC.SetBalance(fromBal - amount);
-			toC.SetBalance(toBal + amount);
+			fromAccount.SetBalance(fromBal - amount);
+			toAccount.SetBalance(toBal + amount);
 			
-			customerDAO.UpdateCustomer(fromC);
-			customerDAO.UpdateCustomer(toC);
+			accountDAO.UpdateAccount(fromAccount);
+			accountDAO.UpdateAccount(toAccount);
 		}
 	}
 
-	public Customer ViewAccount(String id) {
-		return customerDAO.FindCustomerById(id);
+	public Account ViewAccount(int account_id) {
+		return accountDAO.FindAccountById(account_id);
 	}
 
 	public String ViewAllAcounts() {
 		StringBuilder sb = new StringBuilder("");
-		List<Customer> customers = customerDAO.FindAllCustomers();
-		for (Customer c : customers) {
-			sb = sb.append(c.Display() + "\n");
+		List<Account> accounts = accountDAO.FindAllAccounts();
+		
+		if (accounts == null) {
+			return "no accounts found.\n";
+		}
+		
+		for (Account a : accounts) {
+			sb = sb.append(a.Display() + "\n");
 		}
 		
 		return sb.toString();
 	}
 
+	public String GetTransactionLogs() {
+		return employeeDAO.GetTransactionLogs();
+	}
+
+	
+	//TODO: should I put a check here or in the DAO?
+	public double CheckBalance(int account_id) {
+		return accountDAO.GetAccountBalance(account_id);
+	}
+	
+	
 	//TODO
 	public Customer RegisterForCustomerAccount(Employee e) {
 		return null;

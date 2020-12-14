@@ -3,6 +3,7 @@ package com.revature.repositories;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.models.Account;
 import com.revature.models.Customer;
 
 public class CustomerDAO implements ICustomerDAO {
@@ -10,16 +11,20 @@ public class CustomerDAO implements ICustomerDAO {
 	static List<Customer> customers = new ArrayList<Customer>();
 	
 	static {
-		Customer c1 = new Customer("123456789", "password123", 20.00);
-		Customer c2 = new Customer("1", "password123");
-		Customer c3 = new Customer("2", "password123", 30.00);
-		Customer c4 = new Customer("3", "password123", 40.00);
-		Customer c5 = new Customer("4", "password123", 50.00);
-		c1.SetRegistration(true);
-		c2.SetRegistration(true);
-		c3.SetRegistration(true);
-		c4.SetRegistration(true);
-		c5.SetRegistration(false);
+		Customer c1 = new Customer(123456789, 1, "password123");
+		Customer c2 = new Customer(1, 2, "password123");
+		Customer c3 = new Customer(2, 3, "password123");
+		Customer c4 = new Customer(3, 4, "password123");
+		Customer c5 = new Customer(4, 5, "password123");
+			
+		Account a1 = new Account(1, 10.00, true);
+		c1.addAccount(a1);
+		
+		Account a2 = new Account(1, 10.00, true);
+		Account a3 = new Account(2, 100.00, true);
+		c2.addAccount(a2);
+		c2.addAccount(a3);
+		
 		customers.add(c1);
 		customers.add(c2);
 		customers.add(c3);
@@ -27,40 +32,24 @@ public class CustomerDAO implements ICustomerDAO {
 		customers.add(c5);
 	}
 	
-	//TODO
 	public Customer SaveCustomer() {
 		return null;
 	}
 
-	//TODO
 	public Customer UpdateCustomer(Customer c) {
 		return null;
 	}
 
-	//TODO
 	public List<Customer> FindAllCustomers() {
 		return customers;
 	}
 
-	//TODO
-	public Customer FindCustomerById(String id) {
+	public Customer FindCustomerById(int id) {
 		for (Customer c : customers) {
-			if (c.GetId().equals(id)) {
+			if (c.getCustomerId() == id) {
 				return c;
 			}
 		}
 		return null;
 	}
-	
-	//TODO
-//	public Customer FindIdPasswordCombo(String id, String password) {
-//		for (Customer c : customers) {
-//			if (c.GetId().equals(id) && c.GetPassword().equals(password)) {
-//				return c;
-//			}
-//		}
-//		
-//		return null;
-//	}
-
 }
