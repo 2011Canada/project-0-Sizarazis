@@ -15,12 +15,15 @@ import com.revature.repositories.AccountPostgresDAO;
 import com.revature.repositories.CustomerPostgresDAO;
 import com.revature.repositories.IAccountDAO;
 import com.revature.repositories.ICustomerDAO;
+import com.revature.repositories.ITransactionLogDAO;
+import com.revature.repositories.TransactionsLogPostgresDAO;
 
 public class CustomerTransactionServiceTest {
 	IAccountDAO accountDAO = mock(AccountPostgresDAO.class);
 	ICustomerDAO customerDAO = mock(CustomerPostgresDAO.class);
+	ITransactionLogDAO transactionDAO = mock(TransactionsLogPostgresDAO.class);
 	
-	CustomerTransactionService cts = new CustomerTransactionService(customerDAO, accountDAO);
+	CustomerTransactionService cts = new CustomerTransactionService(customerDAO, accountDAO, transactionDAO);
 	
 	@Test
 	public void TestSimpleWithdrawal() {

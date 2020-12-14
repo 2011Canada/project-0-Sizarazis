@@ -10,14 +10,17 @@ import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.repositories.IAccountDAO;
 import com.revature.repositories.IEmployeeDAO;
+import com.revature.repositories.ITransactionLogDAO;
 
 public class EmployeeTransactionService implements IEmployeeTransactionService {
 	IEmployeeDAO employeeDAO;
 	IAccountDAO accountDAO;
+	ITransactionLogDAO transactionDAO;
 	
-	public EmployeeTransactionService(IEmployeeDAO employeeDAO, IAccountDAO accountDAO) {
+	public EmployeeTransactionService(IEmployeeDAO employeeDAO, IAccountDAO accountDAO, ITransactionLogDAO transactionDAO) {
 		this.employeeDAO = employeeDAO;
 		this.accountDAO = accountDAO;
+		this.transactionDAO = transactionDAO;
 	}
 
 	public void ApproveAccount(int account_id) {
@@ -54,6 +57,7 @@ public class EmployeeTransactionService implements IEmployeeTransactionService {
 			
 			accountDAO.UpdateAccount(fromAccount);
 			accountDAO.UpdateAccount(toAccount);
+			transactionDAO.InsertLog("TRANSFER", amount, from, to);
 		}
 	}
 
@@ -77,7 +81,7 @@ public class EmployeeTransactionService implements IEmployeeTransactionService {
 	}
 
 	public String GetTransactionLogs() {
-		return employeeDAO.GetTransactionLogs();
+		return transactionDAO.GetAllLogs();
 	}
 
 	

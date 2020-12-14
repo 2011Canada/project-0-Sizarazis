@@ -4,17 +4,19 @@ import com.revature.exceptions.InsufficientFundsException;
 import com.revature.exceptions.NegativeNumberException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Account;
-import com.revature.models.Customer;
 import com.revature.repositories.IAccountDAO;
 import com.revature.repositories.ICustomerDAO;
+import com.revature.repositories.ITransactionLogDAO;
 
 public class CustomerTransactionService implements ICustomerTransactionService {
 	ICustomerDAO customerDAO;
 	IAccountDAO accountDAO;
+	ITransactionLogDAO transactionDAO;
 	
-	public CustomerTransactionService(ICustomerDAO customerDAO, IAccountDAO accountDAO) {
+	public CustomerTransactionService(ICustomerDAO customerDAO, IAccountDAO accountDAO, ITransactionLogDAO transactionDAO) {
 		this.customerDAO = customerDAO;
 		this.accountDAO = accountDAO;
+		this.transactionDAO = transactionDAO;
 	}
 	
 	
@@ -40,6 +42,7 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 		else {
 			a.SetBalance(a.GetBalance() - amount);
 			accountDAO.UpdateAccount(a);
+			transactionDAO.InsertLog("WITHDRAW", amount, account_id, -1);
 			
 			double newBal = accountDAO.GetAccountBalance(account_id);
 			System.out.println("Transaction complete. Your new account balance is: " + newBal);
@@ -47,6 +50,7 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 		}
 	}
 
+	
 	public void Deposit(int account_id, double amount) throws NegativeNumberException {
 		Account a = accountDAO.FindAccountById(account_id);
 		if (amount < 0) {
@@ -55,6 +59,7 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 		else {
 			a.SetBalance(a.GetBalance() + amount);
 			accountDAO.UpdateAccount(a);
+			transactionDAO.InsertLog("DEPOSIT", amount, -1, account_id);
 			
 			System.out.println("Your new balance is: " + a.GetBalance());
 		}
@@ -88,6 +93,7 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 			
 			accountDAO.UpdateAccount(from);
 			accountDAO.UpdateAccount(to);
+			transactionDAO.InsertLog("TRANSFER", amount, from_account, to_account);
 		}
 	}
 	

@@ -4,10 +4,9 @@ import com.revature.exceptions.InsufficientFundsException;
 import com.revature.exceptions.NegativeNumberException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Customer;
-import com.revature.repositories.AccountDAO;
 import com.revature.repositories.AccountPostgresDAO;
-import com.revature.repositories.CustomerDAO;
 import com.revature.repositories.CustomerPostgresDAO;
+import com.revature.repositories.TransactionsLogPostgresDAO;
 import com.revature.services.CustomerTransactionService;
 import com.revature.services.ICustomerTransactionService;
 
@@ -17,7 +16,7 @@ public class CustomerTransactionState implements BankState {
 	
 	public CustomerTransactionState(Customer customer) {
 		this.customer = customer;
-		cts = new CustomerTransactionService(new CustomerPostgresDAO(), new AccountPostgresDAO());
+		cts = new CustomerTransactionService(new CustomerPostgresDAO(), new AccountPostgresDAO(), new TransactionsLogPostgresDAO());
 	}
 
 	public String Display() {
@@ -54,6 +53,7 @@ public class CustomerTransactionState implements BankState {
 			// deposit
 			else if (split[0].equals("deposit") && split.length == 2) {
 				double amount = Double.parseDouble(cmd.split(" ")[1]);
+				
 				System.out.println("\nAttempting to deposit " + amount + " to your account.");
 				
 				cts.Deposit(customer.getAccounts().get(0).GetAccountId(), amount);
@@ -62,6 +62,7 @@ public class CustomerTransactionState implements BankState {
 				double amount = Double.parseDouble(cmd.split(" ")[2]);
 				int from_account = customer.getAccounts().get(0).GetAccountId();
 				int to_account = Integer.parseInt(split[1]);
+				
 				System.out.println("\nAttempting to transfer " + amount + " from account: " + from_account + ", to account: " + to_account);
 				
 				cts.Transfer(from_account, to_account, amount);

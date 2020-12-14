@@ -25,10 +25,7 @@ public class EmployeeDAO implements IEmployeeDAO {
 		}
 		return null;
 	}
-	
-	public String GetTransactionLogs() {
-		return "";
-	}
+
 
 	public String GetPassword(int employee_id) {
 		// TODO Auto-generated method stub

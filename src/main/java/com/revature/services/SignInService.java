@@ -6,10 +6,7 @@ import com.revature.exceptions.MalformedPasswordException;
 import com.revature.exceptions.TooManyFailedLoginsException;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
-import com.revature.models.User;
-import com.revature.repositories.CustomerDAO;
 import com.revature.repositories.CustomerPostgresDAO;
-import com.revature.repositories.EmployeeDAO;
 import com.revature.repositories.EmployeePostgresDAO;
 import com.revature.repositories.ICustomerDAO;
 import com.revature.repositories.IEmployeeDAO;
@@ -28,37 +25,6 @@ public class SignInService implements ISignInService {
 		loginAttempts = 0;
 		
 	}
-	
-	
-	
-//	public User Login(int id, String password) throws IncorrectPasswordException, UserNotFoundException, TooManyFailedLoginsException {
-//		Employee employee = employeeDAO.FindEmployeeById(id);
-//		Customer customer = customerDAO.FindCustomerById(id);
-//		
-//		// bad username
-//		if (customer == null && employee == null) {
-//			throw new UserNotFoundException();
-//		}
-//		// good employee login (if they also have a customer id, then they are expected to go here)
-//		else if (employee != null && employee.GetPassword().equals(password)) {
-//			return employee;
-//		}
-//		// good customer login
-//		else if (customer != null && customer.GetPassword().equals(password)) {
-//			return customer;
-//		}
-//		// bad password
-//		else {
-//			loginAttempts++;
-//			if (loginAttempts < MAX_LOGIN_ATTEMPTS) {
-//				throw new IncorrectPasswordException();
-//			}
-//			else {
-//				throw new TooManyFailedLoginsException();
-//			}
-//		}
-//	}
-	
 	
 	
 	// NOTE: I may want to hide the password in the console

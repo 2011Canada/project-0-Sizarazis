@@ -49,43 +49,6 @@ static ConnectionFactory cf;
 		return e;
 	}
 
-	//TODO: If I'm bored I can make a transaction model.
-	public String GetTransactionLogs() {
-		Connection conn = cf.getConnection();
-		
-		String sql = "SELECT * FROM bankofbyte.transaction_logs;";
-		
-		String logs = "PREVIOUS TRANSACTIONS:";
-		
-		try {
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				int id = rs.getInt("transaction_id");
-				String type = rs.getString("transaction_type");
-				double amount = rs.getDouble("amount");
-				int from = rs.getInt("from_account");
-				int to = rs.getInt("to_account");
-				boolean isFinished = rs.getBoolean("is_finished");
-				
-				logs = logs + "\n" + "[transaction_id=" + id + ", transaction_type:" + type + ", amount:" + amount + ", from_account:" + from + ", to_account:" + to + ", is_finished:" + isFinished;
-			}
-		}
-		catch (SQLException e1) {
-			e1.printStackTrace();
-			if (conn != null) {
-				try {
-					System.out.println("Transaction is being rolled back.");
-					conn.rollback();
-				}
-				catch (SQLException e2) {
-					e2.printStackTrace();
-				}
-			}
-		}
-		return logs;
-	}
 
 	public String GetPassword(int employee_id) {
 		Connection conn = cf.getConnection();
