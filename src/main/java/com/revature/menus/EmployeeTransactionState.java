@@ -1,8 +1,10 @@
 package com.revature.menus;
 
 import com.revature.launcher.BankOfByteLauncher;
+import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.repositories.AccountPostgresDAO;
+import com.revature.repositories.CustomerPostgresDAO;
 import com.revature.repositories.EmployeePostgresDAO;
 import com.revature.repositories.TransactionsLogPostgresDAO;
 import com.revature.services.EmployeeTransactionService;
@@ -37,7 +39,8 @@ public class EmployeeTransactionState implements BankState {
 					"    4. \"view_all_accounts\"                 --> view all accounts.\n" +
 					//"    5. \"transfer [from, to, amt]\"          --> transfer money.\n" +
 					"    5. \"transactions\"                      --> see all of the logged transactions.\n" +
-					"    6. \"logout\"                            --> logout.\n";
+					"    6. \"register_for_account\"              --> register for a customer account\n" +
+					"    7. \"logout\"                            --> logout.\n";
 			hasShownTop = true;
 		}
 		return s;
@@ -111,6 +114,13 @@ public class EmployeeTransactionState implements BankState {
 //		}
 		else if (instruction.equals("transactions")) {
 			System.out.println(ets.GetTransactionLogs());
+		}
+		else if (instruction.equals("register_for_account")) {
+			System.out.println("\nSetting up your customer account...");
+			
+			int customer_id = ets.RegisterForCustomerAccount(employee);
+			
+			System.out.println("Your account is set up. Please login as a customer with the ID:" + customer_id + ", and your current password.");
 		}
 		// logout
 		else if (instruction.equals("logout")) {

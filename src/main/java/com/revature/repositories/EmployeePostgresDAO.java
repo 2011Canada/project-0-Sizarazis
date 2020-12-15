@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
+import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.util.ConnectionFactory;
 
@@ -81,6 +83,93 @@ static ConnectionFactory cf;
 		}
 		
 		return password;
+	}
+
+	@Override
+	public int RegisterForAccount(Employee e) {
+		Connection conn = cf.getConnection();
+		
+		String sqlCustomer = "INSERT INTO bankofbyte.customer (user_id) VALUES (?);";
+		String sqlAccount = "INSERT INTO bankofbyte.account (date_created, balance, is_validated, customer_id) VALUES (?, ?, ?, ?);";
+		
+		int customer_id = 0;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			PreparedStatement psCustomer = conn.prepareStatement(sqlCustomer);
+			int user_id = e.GetUserId();
+			psCustomer.setInt(1, user_id);
+			psCustomer.executeUpdate();
+			
+			PreparedStatement psAccount = conn.prepareStatement(sqlAccount);
+			Timestamp now = new Timestamp(System.currentTimeMillis());
+			customer_id = FindCustomerByUserId(user_id).getCustomerId();
+			psAccount.setTimestamp(1, now);
+			psAccount.setDouble(2, 0.00);
+			psAccount.setBoolean(3, true);
+			psAccount.setInt(4, customer_id);
+			psAccount.executeUpdate();
+			
+			conn.commit();
+		}
+		catch (SQLException e1) {
+			e1.printStackTrace();
+			if (conn != null) {
+				try {
+					System.out.println("Transaction is being rolled back.");
+					conn.rollback();
+				}
+				catch (SQLException e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+		finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e3) {
+				e3.printStackTrace();
+			}
+		}
+		
+		return customer_id;
+	}
+
+	
+	@Override
+	public Customer FindCustomerByUserId(int user_id) {
+	Connection conn = cf.getConnection();
+		
+		String sql = "SELECT * FROM bankofbyte.customer c, bankofbyte.users u WHERE u.user_id = ? AND u.user_id = c.user_id;";
+		
+		Customer c = null;
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, user_id);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				int customer_id = rs.getInt("customer_id");
+				c = new Customer(user_id, customer_id);
+			}
+		}
+		catch (SQLException e1) {
+			e1.printStackTrace();
+			if (conn != null) {
+				try {
+					System.out.println("Transaction is being rolled back.");
+					conn.rollback();
+				}
+				catch (SQLException e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+
+		return c;
 	}
 
 }

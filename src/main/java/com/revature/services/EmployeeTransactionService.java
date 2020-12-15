@@ -5,6 +5,7 @@ import java.util.List;
 import com.revature.exceptions.InsufficientFundsException;
 import com.revature.exceptions.NegativeNumberException;
 import com.revature.exceptions.UserNotFoundException;
+import com.revature.launcher.BankOfByteLauncher;
 import com.revature.models.Account;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
@@ -91,9 +92,20 @@ public class EmployeeTransactionService implements IEmployeeTransactionService {
 	}
 	
 	
-	//TODO
-	public Customer RegisterForCustomerAccount(Employee e) {
-		return null;
+	//The return value is an int representing the customer ID of the employee's associated account.
+	public int RegisterForCustomerAccount(Employee e) {
+		Customer c = employeeDAO.FindCustomerByUserId(e.GetUserId());
+		int out;
+		
+		if (c == null) {
+			out = employeeDAO.RegisterForAccount(e);
+		}
+		else {
+			out = c.getCustomerId();
+		}
+		
+		BankOfByteLauncher.BoBLogger.info("Employee:" + e.GetEmployeeId() + " registered for the customer account:" + out);
+		return out;
 	}
 	
 	public void Logout() {

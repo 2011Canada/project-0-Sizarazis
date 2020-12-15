@@ -4,7 +4,6 @@ import com.revature.exceptions.InsufficientFundsException;
 import com.revature.exceptions.NegativeNumberException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.Account;
-import com.revature.models.Customer;
 import com.revature.models.Employee;
 
 public interface IEmployeeTransactionService {
@@ -19,7 +18,7 @@ public interface IEmployeeTransactionService {
 	
 	public String ViewAllAcounts();
 	
-	public Customer RegisterForCustomerAccount(Employee e);
+	public int RegisterForCustomerAccount(Employee e);
 	
 	public String GetTransactionLogs();
 	

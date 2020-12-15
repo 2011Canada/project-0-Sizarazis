@@ -60,7 +60,7 @@ public class SignInService implements ISignInService {
 			throws IncorrectPasswordException, UserNotFoundException, TooManyFailedLoginsException {
 		Customer customer = customerDAO.FindCustomerById(customer_id);
 		
-		// bad username
+		// bad user id
 		if (customer == null) {
 			throw new UserNotFoundException();
 		}
