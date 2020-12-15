@@ -17,4 +17,6 @@ public interface ISignInService {
 	public String ValidatePassword(String password) throws MalformedPasswordException;
 
 	public int GetNextCustomerId();
+
+	public void DepositInitialAmount(int customer_id, double amount);
 }

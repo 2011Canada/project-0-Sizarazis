@@ -1,6 +1,7 @@
 package com.revature.menus;
 
 import com.revature.exceptions.MalformedPasswordException;
+import com.revature.exceptions.NegativeNumberException;
 import com.revature.launcher.BankOfByteLauncher;
 import com.revature.services.ISignInService;
 import com.revature.services.SignInService;
@@ -8,8 +9,10 @@ import com.revature.services.SignInService;
 public class RegistrationState implements BankState {
 	boolean willingToRegister = false;
 	boolean hasFailedPassword = false;
+	boolean validPassword = false;
 	int customer_id;
 	String password;
+	double startingBalance;
 	
 	ISignInService signInService;
 	
@@ -17,6 +20,7 @@ public class RegistrationState implements BankState {
 		willingToRegister = false;
 		customer_id = -1;
 		password = "";
+		startingBalance = -1.0;
 		
 		signInService = new SignInService();
 	}
@@ -81,23 +85,43 @@ public class RegistrationState implements BankState {
 			}
 		}
 		// validating their password
-		if (password.length() > 0) {
+		if (password.length() > 0 && !validPassword) {
 			if (cmd.equals(password)) {
 				signInService.Register(customer_id, password);
-				System.out.println("\nCongratulations on registering for a Bank of Byte account!" + 
-									"\nYou will be able to login after one of our many employees has validated your account\n");
+				System.out.println("\nCongratulations on registering for a Bank of Byte account!"  +
+									"\nPlease enter a starting balance for your account (or 0, if you don't want to deposit yet).\n");
 				
+				validPassword = true;
 				BankOfByteLauncher.BoBLogger.info("New customer registered, with the ID:" + customer_id);
 				
-				return new WelcomeState();
+				return this;
 			}
 			else {
-				// TODO: give them a way out of this loop
 				System.out.println("\nYour passwords don't match. Please reenter your password.");
 				return this;
 			}
 		}
-		System.out.println("CODE REACHED A STATE I DIDN'T WANT IT TO.");
+		// setting the starting balance of their account
+		if (startingBalance < 0) {
+			try {
+				startingBalance = Double.parseDouble(cmd);
+				
+				if (startingBalance < 0) {
+					throw new NegativeNumberException();
+				}
+				
+				signInService.DepositInitialAmount(customer_id, startingBalance);
+				
+				System.out.println(startingBalance + " has been deposited into your new account.\n" +
+						"You will be able to login after one of our many employees has validated your account\n");
+				
+				return new WelcomeState();
+			}
+			catch (NumberFormatException | NegativeNumberException e) {
+				System.out.println("Please enter a valid monetary number greater than 0\n");
+			}
+		}
+		
 		return this;
 	}
 

@@ -104,7 +104,15 @@ static ConnectionFactory cf;
 			
 			PreparedStatement psAccount = conn.prepareStatement(sqlAccount);
 			Timestamp now = new Timestamp(System.currentTimeMillis());
-			customer_id = FindCustomerByUserId(user_id).getCustomerId();
+			
+			Customer c = FindCustomerByUserId(user_id);
+			if (c != null) {
+				customer_id = c.getCustomerId();
+			}
+			else {
+				customer_id = GetNextCustomerId();
+			}
+			
 			psAccount.setTimestamp(1, now);
 			psAccount.setDouble(2, 0.00);
 			psAccount.setBoolean(3, true);
@@ -170,6 +178,38 @@ static ConnectionFactory cf;
 		}
 
 		return c;
+	}
+	
+	@Override
+	public int GetNextCustomerId() {
+		Connection conn = cf.getConnection();
+		
+		String sql = "SELECT MAX(customer_id) FROM bankofbyte.customer;";
+		int nextId = 0;	
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				nextId = rs.getInt("max");
+			}
+		}
+		catch (SQLException e1) {
+			e1.printStackTrace();
+			if (conn != null) {
+				try {
+					//TODO: LOG THIS
+					System.out.println("Transaction is being rolled back.");
+					conn.rollback();
+				}
+				catch (SQLException e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+		
+		return nextId + 1;
 	}
 
 }

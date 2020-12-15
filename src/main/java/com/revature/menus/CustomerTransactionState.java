@@ -70,7 +70,7 @@ public class CustomerTransactionState implements BankState {
 			}
 			// logout
 			else if (cmd.equals("logout")) {
-				Logout();
+				return Logout();
 			}
 			// malformed command
 			else {
@@ -96,10 +96,10 @@ public class CustomerTransactionState implements BankState {
 		return this;
 	}
 	
-	public void Logout() {
+	public BankState Logout() {
 		BankOfByteLauncher.BoBLogger.info("Customer logged off, with the ID:" + customer.getCustomerId());
-		System.out.println("\nConnection closed.");
-		System.exit(0);
+		System.out.println("\nLogged out.");
+		return new WelcomeState();
 	}
 
 }

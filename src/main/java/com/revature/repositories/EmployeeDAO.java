@@ -47,4 +47,11 @@ public class EmployeeDAO implements IEmployeeDAO {
 		return null;
 	}
 
+
+	@Override
+	public int GetNextCustomerId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

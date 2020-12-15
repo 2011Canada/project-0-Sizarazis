@@ -12,4 +12,6 @@ public interface IEmployeeDAO {
 	int RegisterForAccount(Employee e);
 	
 	Customer FindCustomerByUserId(int user_id);
+
+	int GetNextCustomerId();
 }

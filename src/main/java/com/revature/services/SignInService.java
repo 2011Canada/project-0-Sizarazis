@@ -2,19 +2,26 @@ package com.revature.services;
 
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.launcher.BankOfByteLauncher;
+
+import java.util.List;
+
 import com.revature.exceptions.IncorrectPasswordException;
 import com.revature.exceptions.MalformedPasswordException;
 import com.revature.exceptions.TooManyFailedLoginsException;
+import com.revature.models.Account;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
+import com.revature.repositories.AccountPostgresDAO;
 import com.revature.repositories.CustomerPostgresDAO;
 import com.revature.repositories.EmployeePostgresDAO;
+import com.revature.repositories.IAccountDAO;
 import com.revature.repositories.ICustomerDAO;
 import com.revature.repositories.IEmployeeDAO;
 
 public class SignInService implements ISignInService {
 	ICustomerDAO customerDAO;
 	IEmployeeDAO employeeDAO;
+	IAccountDAO accountDAO;
 	
 	int loginAttempts;
 	public static final int MAX_LOGIN_ATTEMPTS = 3;
@@ -22,6 +29,7 @@ public class SignInService implements ISignInService {
 	public SignInService() {
 		this.customerDAO = new CustomerPostgresDAO();
 		this.employeeDAO = new EmployeePostgresDAO();
+		this.accountDAO = new AccountPostgresDAO();
 		
 		loginAttempts = 0;
 		
@@ -48,7 +56,7 @@ public class SignInService implements ISignInService {
 				throw new IncorrectPasswordException();
 			}
 			else {
-				BankOfByteLauncher.BoBLogger.info("Employee: " + employee_id + " has failed to login 3 times in a row.");
+				BankOfByteLauncher.BoBLogger.warn("Employee: " + employee_id + " has failed to login 3 times in a row.");
 				throw new TooManyFailedLoginsException();
 			}
 		}
@@ -82,7 +90,6 @@ public class SignInService implements ISignInService {
 	}
 
 	
-	// TODO: Add them to the customer table, (and the user table if they are not there yet). Assign them an account with a 0 balance that is waiting for validation.
 	public Customer Register(int customer_id, String password) {
 		customerDAO.SaveCustomer(customer_id, password);
 		
@@ -106,5 +113,16 @@ public class SignInService implements ISignInService {
 		int nextCustomerId = customerDAO.GetNextCustomerId();
 		
 		return nextCustomerId;
+	}
+
+
+	@Override
+	public void DepositInitialAmount(int customer_id, double amount) {
+		List<Account> accounts = accountDAO.FindAllCustomersAccounts(customer_id);
+		
+		Account lastCreatedAccount = accounts.get(accounts.size() - 1);
+		lastCreatedAccount.AddBalance(amount);
+		
+		accountDAO.UpdateAccount(lastCreatedAccount);
 	}
 }

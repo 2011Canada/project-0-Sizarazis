@@ -71,6 +71,11 @@ public class CustomerTransactionService implements ICustomerTransactionService {
 		Account to = accountDAO.FindAccountById(to_account);
 		double fromBal = 0;
 		
+		if (from.equals(to)) {
+			System.out.println("You can't transfer money to yourself.\n");
+			return;
+		}
+		
 		if (from != null) {
 		fromBal = from.GetBalance();
 		}

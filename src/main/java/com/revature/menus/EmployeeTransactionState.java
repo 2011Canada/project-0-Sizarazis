@@ -1,10 +1,8 @@
 package com.revature.menus;
 
 import com.revature.launcher.BankOfByteLauncher;
-import com.revature.models.Customer;
 import com.revature.models.Employee;
 import com.revature.repositories.AccountPostgresDAO;
-import com.revature.repositories.CustomerPostgresDAO;
 import com.revature.repositories.EmployeePostgresDAO;
 import com.revature.repositories.TransactionsLogPostgresDAO;
 import com.revature.services.EmployeeTransactionService;
@@ -124,7 +122,7 @@ public class EmployeeTransactionState implements BankState {
 		}
 		// logout
 		else if (instruction.equals("logout")) {
-			Logout();
+			return Logout();
 		}
 		// invalid instruction
 		else {
@@ -135,9 +133,9 @@ public class EmployeeTransactionState implements BankState {
 	}
 	
 	
-	public void Logout() {
+	public BankState Logout() {
 		BankOfByteLauncher.BoBLogger.info("Employee logged off, with the ID:" + employee.GetEmployeeId());
-		System.out.println("\nConnection closed.");
-		System.exit(0);
+		System.out.println("\nLogged out.");
+		return new WelcomeState();
 	}
 }

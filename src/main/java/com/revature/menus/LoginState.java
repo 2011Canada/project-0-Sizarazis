@@ -78,9 +78,15 @@ public class LoginState implements BankState {
 					else {
 						Customer customer = signInService.CustomerLogin(id, pw);
 						
-						BankOfByteLauncher.BoBLogger.info("Customer Login with ID:" + id);
-						
-						return new CustomerTransactionState(customer);
+						if (customer.getAccounts().get(0).GetVerification()) {
+							BankOfByteLauncher.BoBLogger.info("Customer Login with ID:" + id);
+							
+							return new CustomerTransactionState(customer);
+						}
+						else {
+							System.out.println("This account is not yet validated. Check again later.\n");
+							return new WelcomeState();
+						}
 					}
 				}
 			}
