@@ -6,3 +6,17 @@
 2020-12-15 11:23:35 BoB [INFO] New customer registered, with the ID:12
 2020-12-15 11:24:21 BoB [INFO] Employee Login with ID:1
 2020-12-15 11:24:24 BoB [INFO] Employee logged off, with the ID:1
+2020-12-15 13:31:13 BoB [INFO] New customer registered, with the ID:4
+2020-12-15 13:31:49 BoB [INFO] Employee Login with ID:1
+2020-12-15 13:32:52 BoB [INFO] Employee logged off, with the ID:1
+2020-12-15 13:32:59 BoB [INFO] Customer Login with ID:4
+2020-12-15 13:34:24 BoB [INFO] Customer logged off, with the ID:4
+2020-12-15 13:34:35 BoB [INFO] Customer Login with ID:1
+2020-12-15 13:34:41 BoB [INFO] Customer logged off, with the ID:1
+2020-12-15 13:34:54 BoB [INFO] Employee Login with ID:1
+2020-12-15 13:36:01 BoB [INFO] Employee:1 registered for the customer account:5
+2020-12-15 13:36:15 BoB [INFO] Employee:1 registered for the customer account:5
+2020-12-15 13:36:47 BoB [INFO] Employee logged off, with the ID:1
+2020-12-15 13:36:54 BoB [INFO] Customer Login with ID:5
+2020-12-15 13:37:25 BoB [INFO] Customer logged off, with the ID:5
+2020-12-15 13:38:32 BoB [WARN] Employee: 1 has failed to login 3 times in a row.

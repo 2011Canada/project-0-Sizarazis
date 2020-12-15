@@ -79,34 +79,30 @@ insert into account (date_created, balance, is_validated, customer_id)
 			values ('2020-01-01', 1000.00, true, 3);
 		
 --employee that is also a customer with an account
-insert into customer (user_id)
-			values (1);
-insert into account (date_created, balance, is_validated, customer_id)
-			values ('2020-12-12', 500.00, true, 4);
+--insert into customer (user_id)
+--			values (1);
+--insert into account (date_created, balance, is_validated, customer_id)
+--			values ('2020-12-12', 500.00, true, 4);
 
 --customer with 2 accounts
-insert into account (date_created, balance, is_validated, customer_id)
-			values ('2020-12-12', 500.00, true, 1);
+--insert into account (date_created, balance, is_validated, customer_id)
+--			values ('2020-12-12', 500.00, true, 1);
 
 --transaction logs
-insert into transaction_logs (transaction_type, amount, from_account)
-			values ('WITHDRAW', 100.00, 1);
-insert into transaction_logs (transaction_type, amount, to_account)
-			values ('DEPOSIT', 100.00, 5);
-insert into transaction_logs (transaction_type, amount, from_account, to_account)
-			values ('TRANSFER', 100.00, 1, 5);
+--insert into transaction_logs (transaction_type, amount, from_account)
+--			values ('WITHDRAW', 100.00, 1);
+--insert into transaction_logs (transaction_type, amount, to_account)
+--			values ('DEPOSIT', 100.00, 5);
+--insert into transaction_logs (transaction_type, amount, from_account, to_account)
+--			values ('TRANSFER', 100.00, 1, 5);
 		
 commit;
 	
-select * from users;
-select * from customer;
-select * from account;
-select * from employee;
-select * from transaction_logs;
+--select * from users u inner join customer c on u.user_id = c.user_id inner join employee e on u.user_id = e.user_id;
+--select * from users;
+--select * from customer;
+--select * from account;
+--select * from employee;
+--select * from transaction_logs;
 
---select a.account_id, a.balance, a.is_validated from account a, customer c where c.customer_id = 1 and c.customer_id = a.customer_id;
---SELECT * FROM bankofbyte.account a, bankofbyte.customer c WHERE c.customer_id = 1 AND a.customer_id = c.customer_id;
---select MAX(customer_id) from customer;
-
---select u.user_password from users u, customer c where c.customer_id = 1 and c.user_id = u.user_id; 
 	
